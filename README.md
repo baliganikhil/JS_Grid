@@ -1,4 +1,4 @@
-<b>JS_Grid</b>
+#JS_Grid
 
 There are several times when we represent data in a table. And we have to perform loops and create table rows. However that is just representing data in a basic format. There are several instances when we want to filter table data, or sort them, etc. 
 
@@ -9,17 +9,18 @@ GRID - Can be used to rapidly deploy forms, tables and form-table controls, and 
 Here is an example of a call
 
 
-     renderGrid ({"id": "myGrid",        // target where grid will be rendered
-           "label": label,             // heading or label in table or form resp
-           "data": data,               // Data as array of objects or object
-           "element_type": type,       // Object with data types for rendering (see above)
-           "qbeEnabled": qbeEnabled,   // Array with true/false for Query By Example
-           "multiSelect": false,       // Flag indicating if multiple rows or single can be selected
-           "container": "table"        // container = table/form - Control to be rendered
+     renderGrid ({"id": "myGrid",        	// target where grid will be rendered
+           "label": label,             		// heading or label in table or form resp
+           "data": data,               		// Data as array of objects or object
+           "element_type": element_type,    // Object with data types for rendering (see above)
+           "qbeEnabled": qbeEnabled,   		// Array with true/false for Query By Example
+           "multiSelect": false,       		// Flag indicating if multiple rows or single can be selected
+           "container": "table"        		// container = table/form - Control to be rendered
      });
 
 
-Data - Array while rendering table/chart should be provided as a JSON. An example is provided here
+**Data**
+Array while rendering table/chart should be provided as a JSON. An example is provided here
 (Not providing Data field will result in empty data automatically)
 
     var data = [
@@ -33,9 +34,11 @@ Each element of the JSON is a row, and elements of each of them is a column.
 Data - Object while rendering form
 var data = {"name":"Nikhil", "age":"24", "dept":"EC", "lastname": "Baliga"};
 
+**Label**
 label is a REQUIRED field. Used for heading of columns in table and label in form, indexes in a chart
 var label = {"name":"Name", "age":"Age", "dept":"Department"};
 
+**Element Type**
 element_type is a REQUIRED field for Tables and Forms. Used for type of rendering, and source is needed for 'select'
 
     var element_type = {
@@ -48,24 +51,34 @@ element_type is a REQUIRED field for Tables and Forms. Used for type of renderin
 Element types supported: text, readonly, select, hidden, radio, checkbox, link, date, button, submit,
 reset, hidObj (Hidden Object Holder).
 
-If required is passed as true, validation will be automatically be done if you are using tools code. (Not sure if implemented yet)
+If required is passed as true, validation will be automatically be done if you are using Grid's code. (Not sure if I have implemented yet)
 A red asterisk will appear against the label to indicate that this is a required field.
 
 The summable attribute will result in automatic summing and display of result in the table footer.
 Summable will update sum on change of values in text box.
 
 Source is required for 'select', 'button', 'submit', 'reset' and 'radio'. For select and radio, they
-are key-value pairs, for option value and display text respectively. For button, submit and reset, source
-is display text
+are key-value pairs, and get rendered as option value and display text respectively. For button, submit and reset, source
+is display text.
   
-<b>Query By Example (For table only)</b>
+**Query By Example - Columnwise Filtering (For table only)**
 qbeEnabled is an array, indicates where Query By Example (columnwise filtering) is enabled or not.
 Array can have either false or true. If it is just false (not array, just false) then the row won't be rendered
 var qbeEnabled = [false, false, false];
-   
-The Table component provides built in abilities to add and delete rows, and also allows you to add buttons
-like save, search, etc. The default behaviour can be overridden by using your custom functions instead. If 
-you want to use tools code, however, you can just skip those parameters. (See example below)
+
+**Adding and removing rows**
+If you are providing a table for people to add records to your table or remove some, you can easily use Grid for it. The Table component provides built-in abilities to add and delete rows, and also allows you to add buttons like save, search, etc. The default behaviour can be overridden by using your custom functions instead. If you want to use Grid's code, however, you can just skip those parameters. (See example below)
+
+Grid doesn't actually delete or add data from a database - It does these things on the screen for you. You can use it to reduce a great deal of work.
+
+When changes happen, a hidden field called 'asterisk' gets updated. 
+* If no changes happen to an existing row, then it will be empty.
+* If a blank row was inserted, it will have a value of B (Blank)
+* If a blank row was inserted and deleted without changes, it will have BD (Blank, Deleted) as a value in it.
+* If a blank row was inserted, and something was modified (as in, text was entered) it will have a value of I (Inserted)
+* If a blank row was inserted, and something was modified and then the row was deleted, it will have a value of ID (Inserted, Deleted)
+* If an existing row was modified, it will have U (Updated)
+* If an existing row was deleted, it will have D (Deleted)
 
 Other parameters (optional) are explained against them in the example call below
 
