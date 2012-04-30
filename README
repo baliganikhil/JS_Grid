@@ -8,6 +8,7 @@ GRID - Can be used to rapidly deploy forms, tables and form-table controls, and 
 
 Here is an example of a call
 
+<pre>
 renderGrid ({"id": "myGrid",        // target where grid will be rendered
       "label": label,             // heading or label in table or form resp
       "data": data,               // Data as array of objects or object
@@ -16,17 +17,17 @@ renderGrid ({"id": "myGrid",        // target where grid will be rendered
       "multiSelect": false,       // Flag indicating if multiple rows or single can be selected
       "container": "table"        // container = table/form - Control to be rendered
 });
-
+</pre>
 
 Data - Array while rendering table/chart should be provided as a JSON. An example is provided here
 (Not providing Data field will result in empty data automatically)
-
+<pre>
 var data = [
 			{"name":"Nikhil", "age":"24", "dept":"EC", "lastname": "Baliga"}, 
 			{"name":"Amod", "age":"29", "dept":"EC", "lastname": "Pandey"},
 			{"name":"Balu", "age":"32", "dept":"ME", "lastname": "S"}
 			];
-
+</pre>
 Each element of the JSON is a row, and elements of each of them is a column.
 
 Data - Object while rendering form
@@ -36,11 +37,13 @@ label is a REQUIRED field. Used for heading of columns in table and label in for
 var label = {"name":"Name", "age":"Age", "dept":"Department"};
 
 element_type is a REQUIRED field for Tables and Forms. Used for type of rendering, and source is needed for 'select'
+<pre>
 var element_type = {
 		"name": {"type":"readonly"},
 		"age":  {"type":"text", "required": "true", "summable": "true"},
 		"dept": {"type":"select", "source":{"EC":"Electronics", "CS":"Comp Sci", "ME":"Mech"}}
 		};
+</pre>
 
 Element types supported: text, readonly, select, hidden, radio, checkbox, link, date, button, submit,
 reset, hidObj (Hidden Object Holder).
@@ -55,7 +58,7 @@ Source is required for 'select', 'button', 'submit', 'reset' and 'radio'. For se
 are key-value pairs, for option value and display text respectively. For button, submit and reset, source
 is display text
   
-Query By Example (For table only)
+<b>Query By Example (For table only)</b>
 qbeEnabled is an array, indicates where Query By Example (columnwise filtering) is enabled or not.
 Array can have either false or true. If it is just false (not array, just false) then the row won't be rendered
 var qbeEnabled = [false, false, false];
@@ -66,6 +69,7 @@ you want to use tools code, however, you can just skip those parameters. (See ex
 
 Other parameters (optional) are explained against them in the example call below
 
+<pre>
 renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 			  "label": label,							// heading or label in table or form resp
 			  "data": data,								// Data as array of objects or object
@@ -91,3 +95,4 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 			  "method": method_name						// Method called on submitting form
 
 });
+</pre>
