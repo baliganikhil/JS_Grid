@@ -101,7 +101,7 @@ There are some instances when we want to select a single row only, and some when
 JS_Grid allows you to render 3 controls at this point of time - Table, Form and Chart. Thus, the manner in which the data will be represented is dependent on this. If you have JSON data in the form of an array (See data format 1 above) then thw following holds true
 * If Container is Table, data is presented as a table
 * If Container is Form, data is represented in a multi data form, where at one time, one record is shown with navigation buttons to inspect each record
-* If Container is Chart, data is represented as Pie or Bar charts, depending on Chart Type parameter
+* If Container is Chart, data is represented as Pie or Bar charts, depending on Chart Type parameter (charttype should be bar or pie)
 
 ####Action Button Position
 actionButtonPosition parameter allows you to specify where you want the add or remove row buttons to be present. If you want these buttons to be present at the top of the table, then don't pass this parameter. If you specify this parameter as line, then the buttons will appear at the end of each row. Each row will have a minus sign (To remove the row) and Plus will appear for the last row (To add a row.
@@ -150,3 +150,10 @@ Other parameters (optional) are explained against them in the example call below
      			  "method": method_name						// Method called on submitting form
      
      });
+
+
+#### External Dependencies
+* Requires jQuery to work
+* Requires Table Sorter plugin in case you want to use sort. If you are not sorting, no issues
+* Requires jQuery UI for dragging functions - Not needed if not using
+* For Charts, Raphael JS is required
