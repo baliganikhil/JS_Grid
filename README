@@ -1,4 +1,4 @@
-JS_Grid
+<b>JS_Grid</b>
 
 There are several times when we represent data in a table. And we have to perform loops and create table rows. However that is just representing data in a basic format. There are several instances when we want to filter table data, or sort them, etc. 
 
