@@ -4,10 +4,9 @@ There are several times when we represent data in a table. And we have to perfor
 
 Since this is a repetitive task I thought of writing some code. I wrote this very quickly, so it may not be very well written, but gets the work done nicely very often. I am still working on this, but read on to see what all can be done
 
-GRID - Can be used to rapidly deploy forms, tables and form-table controls, and now charts.
+GRID - Can be used to rapidly deploy forms, tables, form-table controls, and now charts.
 
 Here is an example of a call
-
 
      renderGrid ({"id": "myGrid",        	// target where grid will be rendered
            "label": label,             		// heading or label in table or form resp
@@ -19,9 +18,14 @@ Here is an example of a call
      });
 
 
-**Data**
+####Id
+All you need to do from your side is create an empty Div with an Id, which is passed along as the ID parameter above.
+
+####Data
 Array while rendering table/chart should be provided as a JSON. An example is provided here
 (Not providing Data field will result in empty data automatically)
+
+*data format 1*
 
     var data = [
     			{"name":"Nikhil", "age":"24", "dept":"EC", "lastname": "Baliga"}, 
@@ -32,13 +36,16 @@ Array while rendering table/chart should be provided as a JSON. An example is pr
 Each element of the JSON is a row, and elements of each of them is a column.
 
 Data - Object while rendering form
+
+*data format 2*
+
 var data = {"name":"Nikhil", "age":"24", "dept":"EC", "lastname": "Baliga"};
 
-**Label**
+####Label
 label is a REQUIRED field. Used for heading of columns in table and label in form, indexes in a chart
 var label = {"name":"Name", "age":"Age", "dept":"Department"};
 
-**Element Type**
+####Element Type
 element_type is a REQUIRED field for Tables and Forms. Used for type of rendering, and source is needed for 'select'
 
     var element_type = {
@@ -61,12 +68,12 @@ Source is required for 'select', 'button', 'submit', 'reset' and 'radio'. For se
 are key-value pairs, and get rendered as option value and display text respectively. For button, submit and reset, source
 is display text.
   
-**Query By Example - Columnwise Filtering (For table only)**
+####Query By Example - Columnwise Filtering (For table only)
 qbeEnabled is an array, indicates where Query By Example (columnwise filtering) is enabled or not.
 Array can have either false or true. If it is just false (not array, just false) then the row won't be rendered
 var qbeEnabled = [false, false, false];
 
-**Adding and removing rows**
+####Adding and removing rows
 If you are providing a table for people to add records to your table or remove some, you can easily use Grid for it. The Table component provides built-in abilities to add and delete rows, and also allows you to add buttons like save, search, etc. The default behaviour can be overridden by using your custom functions instead. If you want to use Grid's code, however, you can just skip those parameters. (See example below)
 
 Grid doesn't actually delete or add data from a database - It does these things on the screen for you. You can use it to reduce a great deal of work.
@@ -79,6 +86,17 @@ When changes happen, a hidden field called 'asterisk' gets updated.
 * If a blank row was inserted, and something was modified and then the row was deleted, it will have a value of ID (Inserted, Deleted)
 * If an existing row was modified, it will have U (Updated)
 * If an existing row was deleted, it will have D (Deleted)
+
+Using this, we can easily find out what happened to that row. A function (soon to be updated) will allow you to get the data in a JSON format directly based on Asterisk.
+
+####Multi Select
+There are some instances when we want to select a single row only, and some when we want to select multiple rows. In such cases, the multiSelect param will be most useful. It is a true or false value
+
+####Container
+JS_Grid allows you to render 3 controls at this point of time - Table, Form and Chart. Thus, the manner in which the data will be represented is dependent on this. If you have JSON data in the form of an array (See data format 1 above) then thw following holds true
+* If Container is Table, data is presented as a table
+* If Container is Form, data is represented in a multi data form, where at one time, one record is shown with navigation buttons to inspect each record
+* If Container is Chart, data is represented as Pie or Bar charts, depending on Chart Type parameter
 
 Other parameters (optional) are explained against them in the example call below
 
