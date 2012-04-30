@@ -2,9 +2,14 @@
 
 There are several times when we represent data in a table. And we have to perform loops and create table rows. However that is just representing data in a basic format. There are several instances when we want to filter table data, or sort them, etc. 
 
-Since this is a repetitive task I thought of writing some code. I wrote this very quickly, so it may not be very well written, but gets the work done nicely very often. I am still working on this, but read on to see what all can be done
+Since this is a repetitive task I thought of writing some code. I wrote this very quickly, so it may not be very well written, but gets the work done nicely very often. I am still working on this, but read on to see what all can be done at this point of time
 
 GRID - Can be used to rapidly deploy forms, tables, form-table controls, and now charts.
+
+#### Works very well with Twitter Bootstrap CSS
+By default, the tables and forms generated will look plain. So you can use your own CSS styles with them. If you want to save time and plough through quickly, then you can just include Twitter Bootstrap CSS and see the tables transform.
+
+#### Example Call
 
 Here is an example of a call
 
@@ -97,6 +102,25 @@ JS_Grid allows you to render 3 controls at this point of time - Table, Form and 
 * If Container is Table, data is presented as a table
 * If Container is Form, data is represented in a multi data form, where at one time, one record is shown with navigation buttons to inspect each record
 * If Container is Chart, data is represented as Pie or Bar charts, depending on Chart Type parameter
+
+####Action Button Position
+actionButtonPosition parameter allows you to specify where you want the add or remove row buttons to be present. If you want these buttons to be present at the top of the table, then don't pass this parameter. If you specify this parameter as line, then the buttons will appear at the end of each row. Each row will have a minus sign (To remove the row) and Plus will appear for the last row (To add a row.
+
+####Call back functions
+As mentioned above, the add and delete buttons make changes to the table. However when you want to want to perform some action on press of these buttons - Like making changes at the database level by making an Ajax call, or simply want to override the existing style, then do the following.
+
+onDelete, onAdd, onSave, onSearch are the four keys that allow you to do something on that action. All you need to do is pass the name of the function to be executed when the corresponding button is pressed. Parantheses should not be included, just the name.
+
+However, when you do this, the default action - such as striking out a row on delete, will not happen if you override it. If you want to call a custom function as well as allow default operations to continue, then include another parameter - onDeleteIsCallback, onAddIsCallback... and pass the value as true. This will do both operation.
+
+####Hiding unnecessary buttons
+If you want to hide the Add, Delete, Save, Export or Search - Just pass the addVisible, deleteVisible, saveVisible, exportVisible and searchVisible values as false.
+
+####Export your table as CSV
+You can export a table as CSV. I used a function I found online to do this directly from Javascript. If you are using Firefox, it works like a charm - If you are using Chrome, it will download the file - but without the extension csv. You just will have to rename the file.
+
+####Sort your table
+This works with the help of the Table Sorter plugin. If you pass this as true, then you can sort columns
 
 Other parameters (optional) are explained against them in the example call below
 
