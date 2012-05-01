@@ -4,10 +4,10 @@
  * // Data - Array while rendering table
  * (Not providing Data field will result in empty data automatically)
  * var data = [
- * 			{"name":"Nikhil", "age":"24", "dept":"EC", "lastname": "Baliga"}, 
- * 			{"name":"Amod", "age":"29", "dept":"EC", "lastname": "Pandey"},
- * 			{"name":"Balu", "age":"32", "dept":"ME", "lastname": "S"}
- * 			];
+ *		{"name":"Nikhil", "age":"24", "dept":"EC", "lastname": "Baliga"},
+ *		{"name":"Amod", "age":"29", "dept":"EC", "lastname": "Pandey"},
+ *		{"name":"Balu", "age":"32", "dept":"ME", "lastname": "S"}
+ *		];
  *
  * // Data - Object while rendering form
  * var data = {"name":"Nikhil", "age":"24", "dept":"EC", "lastname": "Baliga"};
@@ -17,33 +17,33 @@
  *
  * // element_type is a REQUIRED field. Used for type of rendering, and source is needed for 'select'
  * var element_type = {
- * 		"name": {"type":"readonly"},
- * 		"age":  {"type":"text", "required": "true", "summable": "true"},
- * 		"dept": {"type":"select", "source":{"EC":"Electronics", "CS":"Comp Sci", "ME":"Mech"}}
- * 		};
- * 
+ *		"name": {"type":"readonly"},
+ *		"age":  {"type":"text", "required": "true", "summable": "true"},
+ *		"dept": {"type":"select", "source":{"EC":"Electronics", "CS":"Comp Sci", "ME":"Mech"}}
+ *		;
+ *
  * Element types supported: text, readonly, select, hidden, radio, checkbox, link, date, button, submit,
  * reset, hidObj (Hidden Object Holder).
  *
  * If required is passed as true, validation will be automatically be done if you are using tools code.
  * A red asterisk will appear against the label to indicate that this is a required field.
- * 
+ *
  * The summable attribute will result in automatic summing and display of result in the table footer.
  * Summable will update sum on change of values in text box.
- * 
+ *
  * Source is required for 'select', 'button', 'submit', 'reset' and 'radio'. For select and radio, they
  * are key-value pairs, for option value and display text respectively. For button, submit and reset, source
  * is display text
- * 
+ *
  *  Query By Example (For table only)
  *  qbeEnabled is an array, indicates where Query By Example (columnwise filtering) is enabled or not.
  *  Array can have either false or true. If it is just false (not array, just false) then the row won't be rendered
  *  var qbeEnabled = [false, false, false];
- *  
- *  
+ *
+ *
  *  Edit New Readonly - Currently this feature is not supported
  *  var editNewReadOnly = [true, false, false];
- * 
+ *
  *  The Table component provides built in abilities to add and delete rows, and also allows you to add buttons
  * like save, search, etc. The default behaviour can be overridden by using your custom functions instead. If 
  * you want to use tools code, however, you can just skip those parameters. (See example below)
@@ -88,233 +88,233 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 	var no_data = false;
 
 	init_grid_table = function(obj) {
-	   var grid_toolbar = '';
-	   var hidden_columns = '';
-	   
-	   var array_of_keys = '';
-	   
-	   var no_of_cols = 0;
-	   var div_id = obj["id"];
-	   var data = obj["data"];
-	   var header = obj["label"];
-	   var type = obj["element_type"];
-	   var qbeEnabled = obj["qbeEnabled"];
-	   var multiSelect = obj["multiSelect"];
-	   var actionButtonPosition = obj["actionButtonPosition"];
-	   var sort = obj["sort"];
-	   var draggableCols = obj["draggableCols"];
+	var grid_toolbar = '';
+	var hidden_columns = '';
 
-	   var table_id = '';
-	   var colName = Object.keys(header);
-	   
-	   var thead = '';
-	   var tbody = '';
-	   var qbe = '';
-	   var chkOrRad = '';
+	var array_of_keys = '';
 
-	   if (nullOrEmpty(div_id)) {
-		alert("No id has been specified for table. Param 'id' missing");
-		return false;
-	   } else {
-		table_id = div_id + '_grid_table';
-	   }
+	var no_of_cols = 0;
+	var div_id = obj["id"];
+	var data = obj["data"];
+	var header = obj["label"];
+	var type = obj["element_type"];
+	var qbeEnabled = obj["qbeEnabled"];
+	var multiSelect = obj["multiSelect"];
+	var actionButtonPosition = obj["actionButtonPosition"];
+	var sort = obj["sort"];
+	var draggableCols = obj["draggableCols"];
 
-	   if (nullOrEmpty(header)) {
+	var table_id = '';
+	var colName = Object.keys(header);
+
+	var thead = '';
+	var tbody = '';
+	var qbe = '';
+	var chkOrRad = '';
+
+	if (nullOrEmpty(div_id)) {
+	alert("No id has been specified for table. Param 'id' missing");
+	return false;
+	} else {
+	table_id = div_id + '_grid_table';
+	}
+
+	if (nullOrEmpty(header)) {
 		alert("Header has not been passed. Param 'label' missing");
 		return false;
-	   } else {
-	   	array_of_keys = Object.keys(header);
-	   }
+	} else {
+		array_of_keys = Object.keys(header);
+	}
 
-	   if (nullOrEmpty(type)) {
-	   	alert("Element Types has not been passed. Param 'element_type' missing");
-		return false;
-	   }
+	if (nullOrEmpty(type)) {
+		alert("Element Types has not been passed. Param 'element_type' missing");
+	return false;
+	}
 
-	   if (nullOrEmpty(multiSelect) || multiSelect == 'false' || multiSelect == false) {
+	if (nullOrEmpty(multiSelect) || multiSelect === 'false' || multiSelect === false) {
 		chkOrRad = '"radio" name = "chkRow"';
-	   } else {
-		chkOrRad = '"checkbox"';
-	   }
-	   
-	   if (nullOrEmpty(qbeEnabled)) {
-	   	qbeEnabled = false;
-	   }
+	} else {
+	checkboxhkOrRad = '"checkbox"';
+	}
 
-	   no_of_cols = Object.keys(header).length;
-	   
-	   /* == Preparing toolbar == */
-  	   if (nullOrEmpty(obj["saveVisible"]) || obj["saveVisible"] == true || obj["saveVisible"] == 'true') {
-		grid_toolbar += '<button class="btn btn-primary grid_save_rows" type="button">Save</button>&nbsp;';
-	   }
-	   
-	   if (obj["addVisible"] == true || obj["addVisible"] == 'true' || nullOrEmpty(obj["addVisible"])) {
+	if (nullOrEmpty(qbeEnabled)) {
+		qbeEnabled = false;
+	}
+
+	no_of_cols = Object.keys(header).length;
+
+	/* == Preparing toolbar == */
+	if (nullOrEmpty(obj["saveVisible"]) || obj["saveVisible"] === true || obj["saveVisible"] == 'true') {
+	grid_toolbar += '<button class="btn btn-primary grid_save_rows" type="button">Save</button>&nbsp;';
+	}
+
+	if (obj["addVisible"] === true || obj["addVisible"] == 'true' || nullOrEmpty(obj["addVisible"])) {
 		if(actionButtonPosition != 'line') {
 			grid_toolbar += '<button class="btn btn-success grid_add_row" type="button">Add Row</button>&nbsp;';
 		}
-	   }
-	   
-	   if (nullOrEmpty(obj["deleteVisible"]) || obj["deleteVisible"] == true || obj["deleteVisible"] == 'true') {
+	}
+
+	if (nullOrEmpty(obj["deleteVisible"]) || obj["deleteVisible"] === true || obj["deleteVisible"] == 'true') {
 		if(actionButtonPosition != 'line') {
 			grid_toolbar += '<button class="btn btn-danger grid_delete_rows" type="button">Delete Row</button>';
 		}
-	   }
-	   
-	   // Toolbar - export table as csv
-	   if (obj["exportVisible"] != "false") {
+	}
+
+		// Toolbar - export table as csv
+		if (obj["exportVisible"] != "false") {
 			grid_toolbar += '<button class="btn btn-info grid_export_rows" type="button"><img src="./images/export.jpg"> Export</button>';
-	   }
+		}
 
-	   /* == Header and Sum of columns if exists == */
-	   var summable_column_exists = false;
-	   var sum_of_column_array = new Array();
-	   
-	   for (var i = 0; i < Object.keys(header).length; i++) {
-	   	if (type[array_of_keys[i]].type != 'hidden') {
-	   		var required_field = '';
-	   		if(type[array_of_keys[i]].required == true || type[array_of_keys[i]].required == "true" ) {
-	   			required_field = '<span class = "required_asterisk" style = "color: red;"> *</span>';
-	   		}
-	   		thead += '<th class="' + array_of_keys[i] + '"><a href="#"><span class="hide_column_grid" data-class_name = "' + array_of_keys[i] + '" data-div_id="' + div_id + '"><img src="./images/minus.jpg" border="0"></a> </span>' + header[colName[i]] + required_field + '</th>';
-	   		
-	   		sum_of_column_array.push(0);
-	   		if((type[array_of_keys[i]].summable == "true" || type[array_of_keys[i]].summable == true) && summable_column_exists == false) {
-	   			summable_column_exists = true;
-	   		} 
-	   	}
-		
-	   }
-	   
-	   /* Select All checkbox in header, if multi select is enabled */
-	   var selectAll = '';
-	   if (multiSelect == 'true' || multiSelect == true) {
-	   		selectAll = '<input type="checkbox" id = "' + table_id + '_select_all">';
-	   		$('#' + table_id + '_select_all').live('click', function() {
-	   			if ($(this).is(':checked')) {
-   					$('#' + table_id).find('.chkRow_grid').attr('checked', $(this).attr('checked'));
-   				} else {
-   					$('#' + table_id).find('.chkRow_grid').removeAttr('checked');
-   				}
-	   		});
-	   }
-	   
-	   var empty_cell_for_header = actionButtonPosition == "line" ? "<th></th>" : "";
-	   thead = '<thead><tr><th>' + selectAll + '</th><th>Sl.</th>' + thead + empty_cell_for_header;
-	   thead += '</tr></thead>';
+		/* == Header and Sum of columns if exists == */
+		var summable_column_exists = false;
+		var sum_of_column_array = [];
 
-	   /* == Body == */
-	   tbody = '<tbody>';
-
-	   for (var i = 0; i < data.length; i++) {
-
-		var trow = '';
-		var hidden_fields_in_this_row = '';
-		
-		var empty_row = '';
-		var hidden_fields_in_blank_row = '';
-		
-		   for (var j = 0; j < no_of_cols; j++) {
-			var cellValue = '';
-			var emptyCellValue = '';
-			var current_value = data[i][colName[j]];
-			var current_type = type[colName[j]];
-			var cur_col_summable = current_type.summable;
-			
-			if (cur_col_summable) {
-				var temp_cur_value = current_value;
-				if (nullOrEmpty(current_value)) {
-					temp_cur_value = 0;
+		for (var i = 0; i < Object.keys(header).length; i++) {
+			if (type[array_of_keys[i]].type != 'hidden') {
+				var required_field = '';
+				if(type[array_of_keys[i]].required === true || type[array_of_keys[i]].required == "true" ) {
+					required_field = '<span class = "required_asterisk" style = "color: red;"> *</span>';
 				}
+				thead += '<th class="' + array_of_keys[i] + '"><a href="#"><span class="hide_column_grid" data-class_name = "' + array_of_keys[i] + '" data-div_id="' + div_id + '"><img src="./images/minus.jpg" border="0"></a> </span>' + header[colName[i]] + required_field + '</th>';
 				
-				sum_of_column_array[j] = parseFloat(sum_of_column_array[j]) + parseFloat(temp_cur_value);
-			} else {
-				sum_of_column_array[j] = '';
-			}
-
-			// Set up QBE
-			if (i == 0 && current_type.type != 'hidden') {
-				if (qbeEnabled != false) {
-					var readonly = '';
-					if (qbeEnabled[j] == false || qbeEnabled[j] == "false") {
-						readonly = ' readonly="readonly"';
-					}
-					qbe += '<th><input type="text" class="qbe ' + colName[j] + '" id="' + colName[j] + '"' + readonly + '></th>';
-				} else {
-					qbe = '';
+				sum_of_column_array.push(0);
+				if((type[array_of_keys[i]].summable == "true" || type[array_of_keys[i]].summable === true) && summable_column_exists === false) {
+					summable_column_exists = true;
 				}
 			}
 
-			var classes_to_be_applied = '';
-			if (cur_col_summable) {
-				classes_to_be_applied += 'summable';
+		}
+
+		/* Select All checkbox in header, if multi select is enabled */
+		var selectAll = '';
+		if (multiSelect == 'true' || multiSelect === true) {
+				selectAll = '<input type="checkbox" id = "' + table_id + '_select_all">';
+				$('#' + table_id + '_select_all').live('click', function() {
+					if ($(this).is(':checked')) {
+						$('#' + table_id).find('.chkRow_grid').attr('checked', $(this).attr('checked'));
+					} else {
+						$('#' + table_id).find('.chkRow_grid').removeAttr('checked');
+					}
+				});
+		}
+
+		var empty_cell_for_header = actionButtonPosition == "line" ? "<th></th>" : "";
+		thead = '<thead><tr><th>' + selectAll + '</th><th>Sl.</th>' + thead + empty_cell_for_header;
+		thead += '</tr></thead>';
+
+		/* == Body == */
+		tbody = '<tbody>';
+
+		for (i = 0; i < data.length; i++) {
+
+			var trow = '';
+			var hidden_fields_in_this_row = '';
+			
+			var empty_row = '';
+			var hidden_fields_in_blank_row = '';
+			
+			for (var j = 0; j < no_of_cols; j++) {
+				var cellValue = '';
+				var emptyCellValue = '';
+				var current_value = data[i][colName[j]];
+				var current_type = type[colName[j]];
+				var cur_col_summable = current_type.summable;
+				
+				if (cur_col_summable) {
+					var temp_cur_value = current_value;
+					if (nullOrEmpty(current_value)) {
+						temp_cur_value = 0;
+					}
+					
+					sum_of_column_array[j] = parseFloat(sum_of_column_array[j]) + parseFloat(temp_cur_value);
+				} else {
+					sum_of_column_array[j] = '';
+				}
+
+				// Set up QBE
+				if (i === 0 && current_type.type != 'hidden') {
+					if (qbeEnabled !== false) {
+						var readonly = '';
+						if (qbeEnabled[j] === false || qbeEnabled[j] == "false") {
+							readonly = ' readonly="readonly"';
+						}
+						qbe += '<th><input type="text" class="qbe ' + colName[j] + '" id="' + colName[j] + '"' + readonly + '></th>';
+					} else {
+						qbe = '';
+					}
+				}
+
+				var classes_to_be_applied = '';
+				if (cur_col_summable) {
+					classes_to_be_applied += 'summable';
+				}
+
+				cellValue = render_control(current_type, colName[j], current_value, current_type.source, classes_to_be_applied);
+				emptyCellValue = render_control(current_type, colName[j], "", current_type.source, classes_to_be_applied);
+
+				if (current_type.type == 'hidden') {
+					hidden_fields_in_this_row += cellValue;
+					hidden_fields_in_blank_row += emptyCellValue;
+				} else {
+					trow += '<td class="' + colName[j] + '_cell">' + cellValue + '</td>';
+					empty_row += '<td class="' + colName[j] + '_cell" data-div_id = "' + div_id + '">' + emptyCellValue + '</td>';
+				}
+
 			}
 
-			cellValue = render_control(current_type, colName[j], current_value, current_type.source, classes_to_be_applied);
-			emptyCellValue = render_control(current_type, colName[j], "", current_type.source, classes_to_be_applied);
+			if(actionButtonPosition == 'line') {
+				empty_row += '<td class="action_btn_grid" data-div_id = "' + div_id + '"><button class="btn btn-success grid_delete_rows" type="button">+</button></td>';
+				trow += '<td class="action_btn_grid"><button class="btn btn-danger grid_delete_rows" type="button">-</button></td>';
+			}
+			
+			var blank_row_hidden = hidden_fields_in_blank_row + '<input type="hidden" class="asterisk" value="B">';
 
-			if (current_type.type == 'hidden') {
-				hidden_fields_in_this_row += cellValue;
-				hidden_fields_in_blank_row += emptyCellValue;
+			if (no_data) {
+				hidden_fields_in_this_row += '<input type="hidden" class="asterisk" value="B">';
 			} else {
-				trow += '<td class="' + colName[j] + '_cell">' + cellValue + '</td>';
-				empty_row += '<td class="' + colName[j] + '_cell" data-div_id = "' + div_id + '">' + emptyCellValue + '</td>';
+				hidden_fields_in_this_row += '<input type="hidden" class="asterisk">';
 			}
+			
+			trow = '<tr class="eachRow"><td><input type=' + chkOrRad + ' class="chkRow_grid">' + hidden_fields_in_this_row + '</td><td class="sl_grid">' + (i + 1) + '</td>' + trow + '</tr>';
+			tbody += trow;
+			
+			if (i === 0) {
+				map_of_blank_rows[div_id] = '<tr class="eachRow" data-div_id = "' + div_id + '"><td data-div_id = "' + div_id + '"><input type=' + chkOrRad + ' class="chkRow_grid">' + blank_row_hidden + '</td><td class="sl_grid" data-div_id = "' + div_id + '">' + (i + 1) + '</td>' + empty_row + '</tr>';
+			}
+		
+		}
 
-		   }
+		/* == If summable column exists, build footer == */
+		var tfoot = '';
+		if (summable_column_exists) {
+			$(sum_of_column_array).each(function (key, value) {
+				tfoot += '<td class = "' + array_of_keys[key] + ' ' + array_of_keys[key] + '_sum_cell" style = "text-align: right;"><span class = "' + array_of_keys[key] + '_sum" style = "font-weight: bold;">' + sum_of_column_array[key] + '</span></td>';
+			});
+			tfoot = '<tfoot><td></td><td></td>' + tfoot + '</tfoot>';
+		}
 
+		/* == Fill the table and header == */
+		tbody = '<table class="grid_table table table-striped table-bordered draggable" id = "' + table_id + '" data-div_id="' + div_id + '">' +
+					thead + tbody + '</tbody>' + tfoot + '</table>';
+		tbody = '<div class="table_pane_grid">' + tbody + '</div>';
+		$("#" + div_id).html(tbody);
+
+		// Make the last button as plus
 		if(actionButtonPosition == 'line') {
-			empty_row += '<td class="action_btn_grid" data-div_id = "' + div_id + '"><button class="btn btn-success grid_delete_rows" type="button">+</button></td>';
-			trow += '<td class="action_btn_grid"><button class="btn btn-danger grid_delete_rows" type="button">-</button></td>';
-		}
-		
-		var blank_row_hidden = hidden_fields_in_blank_row + '<input type="hidden" class="asterisk" value="B">';
-
-		if (no_data) {
-			hidden_fields_in_this_row += '<input type="hidden" class="asterisk" value="B">';
-		} else {
-			hidden_fields_in_this_row += '<input type="hidden" class="asterisk">';
-		}
-		
-		trow = '<tr class="eachRow"><td><input type=' + chkOrRad + ' class="chkRow_grid">' + hidden_fields_in_this_row + '</td><td class="sl_grid">' + (i + 1) + '</td>' + trow + '</tr>';
-		tbody += trow;
-		
-		if (i == 0) {
-			map_of_blank_rows[div_id] = '<tr class="eachRow" data-div_id = "' + div_id + '"><td data-div_id = "' + div_id + '"><input type=' + chkOrRad + ' class="chkRow_grid">' + blank_row_hidden + '</td><td class="sl_grid" data-div_id = "' + div_id + '">' + (i + 1) + '</td>' + empty_row + '</tr>';
-		}
-		
-	   }
-	   
-	   /* == If summable column exists, build footer == */
-	  var tfoot = '';
-	  if (summable_column_exists) {
-	  	$(sum_of_column_array).each(function (key, value) {
-	  		tfoot += '<td class = "' + array_of_keys[key] + ' ' + array_of_keys[key] + '_sum_cell" style = "text-align: right;"><span class = "' + array_of_keys[key] + '_sum" style = "font-weight: bold;">' + sum_of_column_array[key] + '</span></td>';
-	  	});
-	  	tfoot = '<tfoot><td></td><td></td>' + tfoot + '</tfoot>';
-	  }
-
-	   /* == Fill the table and header == */
-	   tbody = '<table class="grid_table table table-striped table-bordered draggable" id = "' + table_id + '" data-div_id="' + div_id + '">' + 
-	   			thead + tbody + '</tbody>' + tfoot + '</table>';
-	   tbody = '<div class="table_pane_grid">' + tbody + '</div>';
-	   $("#" + div_id).html(tbody);
-	   
-	   // Make the last button as plus
-	   if(actionButtonPosition == 'line') {
-	   		$('#' + table_id).find('.action_btn_grid:last').html('<button class="btn btn-success grid_add_row" type="button">+</button>');
+				$('#' + table_id).find('.action_btn_grid:last').html('<button class="btn btn-success grid_add_row" type="button">+</button>');
 		}
 
-	   qbe = "<tr><th></th><th> </th>" + qbe;
-	   if (actionButtonPosition == 'line') {
-	   	qbe += '<th></th>';
-	   }
-	   qbe += "</tr>";
-	   
-	   if (!qbeEnabled || qbeEnabled == 'false') {
-	   		qbe = '';
-	   }
-	   
-	   $("#" + table_id).find('tr:first').before(qbe);
+		qbe = "<tr><th></th><th> </th>" + qbe;
+		if (actionButtonPosition == 'line') {
+			qbe += '<th></th>';
+		}
+		qbe += "</tr>";
+
+		if (!qbeEnabled || qbeEnabled == 'false') {
+			qbe = '';
+		}
+
+		$("#" + table_id).find('tr:first').before(qbe);
 
 		grid_toolbar = "<div style='margin:10px' class = 'grid_toolbar' data-div_id='" + div_id + "'>" + grid_toolbar + "</span></div>";
 		hidden_columns = "<div style='margin:10px' class = 'hidden_columns' data-div_id='" + div_id + "'>" + hidden_columns + "</span>&nbsp;</div>";
@@ -325,83 +325,83 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 
 		$("#" + div_id + " .table_pane_grid").css('overflow', 'auto');
 
-	   /* == On click of the delete button, what should happen? == */
-	   if (nullOrEmpty(obj["onDelete"])) {
-	   	blueprint_grid[div_id]["onDelete"] = '';
-	   } else {
-	   	blueprint_grid[div_id]["onDelete"] = obj["onDelete"];
-	   }
-	   
-	   /* == Check if delete function is a callback == */
-	   if (nullOrEmpty(obj["onDeleteIsCallback"])) {
-	   	blueprint_grid[div_id]["onDeleteIsCallback"] = '';
-	   } else {
-	   	blueprint_grid[div_id]["onDeleteIsCallback"] = obj["onDeleteIsCallback"];
-	   }
+		/* == On click of the delete button, what should happen? == */
+		if (nullOrEmpty(obj["onDelete"])) {
+			blueprint_grid[div_id]["onDelete"] = '';
+		} else {
+			blueprint_grid[div_id]["onDelete"] = obj["onDelete"];
+		}
 
-	   /* == On click of the Add button, what should happen? == */
-	   if (nullOrEmpty(obj["onAdd"])) {
+		/* == Check if delete function is a callback == */
+		if (nullOrEmpty(obj["onDeleteIsCallback"])) {
+			blueprint_grid[div_id]["onDeleteIsCallback"] = '';
+		} else {
+			blueprint_grid[div_id]["onDeleteIsCallback"] = obj["onDeleteIsCallback"];
+		}
+
+		/* == On click of the Add button, what should happen? == */
+		if (nullOrEmpty(obj["onAdd"])) {
 			blueprint_grid[div_id]["onAdd"] = '';
-	   } else {
+		} else {
 			blueprint_grid[div_id]["onAdd"] = obj["onAdd"];
-	   }
-	   
-	   /* == Check if Add function is a callback == */
-	   if (nullOrEmpty(obj["onAddIsCallback"])) {
-	   	blueprint_grid[div_id]["onAddIsCallback"] = '';
-	   } else {
-	   	blueprint_grid[div_id]["onAddIsCallback"] = obj["onAddIsCallback"];
-	   }
+		}
 
-	   /* == On click of the Save button, what should happen? == */
-	   if (nullOrEmpty(obj["onSave"])) {
+		/* == Check if Add function is a callback == */
+		if (nullOrEmpty(obj["onAddIsCallback"])) {
+			blueprint_grid[div_id]["onAddIsCallback"] = '';
+		} else {
+			blueprint_grid[div_id]["onAddIsCallback"] = obj["onAddIsCallback"];
+		}
+
+		/* == On click of the Save button, what should happen? == */
+		if (nullOrEmpty(obj["onSave"])) {
 			blueprint_grid[div_id]["onSave"] = '';
-	   } else {
+		} else {
 			blueprint_grid[div_id]["onSave"] = obj["onSave"];
-	   }
-	   
-	   /* == Check if Save function is a callback == */
-	   if (nullOrEmpty(obj["onSaveIsCallback"])) {
-	   	blueprint_grid[div_id]["onSaveIsCallback"] = '';
-	   } else {
-	   	blueprint_grid[div_id]["onSaveIsCallback"] = obj["onSaveIsCallback"];
-	   }
-	   
-	   /* == On click of the Search button, what should happen? == */
-	   if (nullOrEmpty(obj["onSearch"])) {
-			blueprint_grid[div_id]["onSearch"] = '';
-	   } else {
-			blueprint_grid[div_id]["onSearch"] = obj["onSearch"];
-	   }
-	   
-	   /* == Check if Search function is a callback == */
-	   if (nullOrEmpty(obj["onSearchIsCallback"])) {
-	   	blueprint_grid[div_id]["onSearchIsCallback"] = '';
-	   } else {
-	   	blueprint_grid[div_id]["onSearchIsCallback"] = obj["onSearchIsCallback"];
-	   }
+		}
 
-	   /* == Make text boxes look better if bootstrap == */
-	   //$("#" + table_id).find('input').css("height","30px");
-	   
-	   /* == If a control in a row has been modified, set asterisk to * in that row == */
-	  bindControlsToAsterisk(table_id);
-	  
-	  /* == Hang Date pickers and line numbers == */
-	 set_sl_no(table_id);
-	 
-	 /* == Sort table if enabled == */
-		if (sort == 'true' || sort == true) {
+		/* == Check if Save function is a callback == */
+		if (nullOrEmpty(obj["onSaveIsCallback"])) {
+			blueprint_grid[div_id]["onSaveIsCallback"] = '';
+		} else {
+			blueprint_grid[div_id]["onSaveIsCallback"] = obj["onSaveIsCallback"];
+		}
+
+		/* == On click of the Search button, what should happen? == */
+		if (nullOrEmpty(obj["onSearch"])) {
+			blueprint_grid[div_id]["onSearch"] = '';
+		} else {
+			blueprint_grid[div_id]["onSearch"] = obj["onSearch"];
+		}
+
+		/* == Check if Search function is a callback == */
+		if (nullOrEmpty(obj["onSearchIsCallback"])) {
+			blueprint_grid[div_id]["onSearchIsCallback"] = '';
+		} else {
+			blueprint_grid[div_id]["onSearchIsCallback"] = obj["onSearchIsCallback"];
+		}
+
+		/* == Make text boxes look better if bootstrap == */
+		//$("#" + table_id).find('input').css("height","30px");
+
+		/* == If a control in a row has been modified, set asterisk to * in that row == */
+		bindControlsToAsterisk(table_id);
+
+		/* == Hang Date pickers and line numbers == */
+		set_sl_no(table_id);
+
+		/* == Sort table if enabled == */
+		if (sort == 'true' || sort === true) {
 			$("#" + table_id).tablesorter();
 		}
-	
-	/* == Allow rows to be dragged around if enabled == */
-	   if (draggableCols == 'true' || draggableCols == true) {
+
+		/* == Allow rows to be dragged around if enabled == */
+		if (draggableCols == 'true' || draggableCols === true) {
 			$("#" + table_id).find('tbody').sortable();
 		}
-		
-	/* == For summable columns to be right aligned == */
-		if (summable_column_exists == 'true' || summable_column_exists == true) {
+
+		/* == For summable columns to be right aligned == */
+		if (summable_column_exists == 'true' || summable_column_exists === true) {
 			$("#" + table_id).find('.summable').css("text-align", "right");
 		}
 		
@@ -430,9 +430,9 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 	var grid_toolbar_height = parseFloat($("#" + div_id + ' .grid_toolbar').height());
 	var hidden_columns_height = parseFloat($("#" + div_id + ' .hidden_columns').height());
 	
-	$("#" + div_id + " .table_pane_grid").css('height', (main_div_height - (grid_toolbar_height + hidden_columns_height) - 40) + 'px');	
-	
-	}
+	$("#" + div_id + " .table_pane_grid").css('height', (main_div_height - (grid_toolbar_height + hidden_columns_height) - 40) + 'px');
+
+	};
 	
 	
 						/*** End of Init Grid ***/
@@ -447,7 +447,7 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 		
 		var onDeleteIsCallback = blueprint_grid[div_id]["onDeleteIsCallback"];
 
-		if (blueprint_grid[div_id]["onDelete"] == '' || (blueprint_grid[div_id]["onDelete"] != '' && (onDeleteIsCallback || onDeleteIsCallback == 'true'))) {
+		if (blueprint_grid[div_id]["onDelete"] === '' || (blueprint_grid[div_id]["onDelete"] !== '' && (onDeleteIsCallback || onDeleteIsCallback == 'true'))) {
 
 			// Check if custom function needs to be called before tools code
 			// That is, check if custom function is callback
@@ -456,7 +456,7 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 			}
 		
 			// Default code
-			if ($(this).parent().hasClass('action_btn_grid') == true) {
+			if ($(this).parent().hasClass('action_btn_grid') === true) {
 				var deleted_rows = $(this).closest('tr');
 				$(deleted_rows).find('.chkRow_grid').remove();
 				
@@ -466,7 +466,7 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 			} else {
 				var new_row = '';
 				if ($("#" + curTable).find('.chkRow_grid:checked').length == $("#" + curTable).find('.chkRow_grid').length) {
-					var new_row = map_of_blank_rows[div_id];
+					new_row = map_of_blank_rows[div_id];
 					
 					var deleted_rows = $("#" + curTable).find('.chkRow_grid:checked').closest('tr');
 					$(deleted_rows).find('.chkRow_grid').remove();
@@ -516,11 +516,11 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 	}
 	
 	function exec_custom_delete_function_grid(div_id, curTable, target) {
-	console.log($(target).closest('tr'));
-		if ($(target).parent().hasClass('action_btn_grid') == true) {
-			var fn = blueprint_grid[div_id]["onDelete"].bind($(target).closest('tr'));
+		var fn;
+		if ($(target).parent().hasClass('action_btn_grid') === true) {
+			fn = blueprint_grid[div_id]["onDelete"].bind($(target).closest('tr'));
 		} else {
-			var fn = blueprint_grid[div_id]["onDelete"].bind($("#" + curTable).find('.chkRow_grid:checked').closest('tr'));
+			fn = blueprint_grid[div_id]["onDelete"].bind($("#" + curTable).find('.chkRow_grid:checked').closest('tr'));
 		}
 		fn();
 	}
@@ -533,10 +533,10 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 		var div_id = $(this).parent().data('div_id');
 		var curTable = div_id + '_grid_table';
 
-		if (blueprint_grid[div_id]["onAdd"] == '') {
+		if (blueprint_grid[div_id]["onAdd"] === '') {
 			onAdd_default_behaviour_grid(div_id, curTable, current_btn);
 		} else {
-			if ($(this).parent().hasClass('action_btn_grid') == true) {
+			if ($(this).parent().hasClass('action_btn_grid') === true) {
 				blueprint_grid[div_id]["onAdd"] = blueprint_grid[div_id]["onAdd"].bind($(this).closest('tr'));
 			} else {
 				blueprint_grid[div_id]["onAdd"] = blueprint_grid[div_id]["onAdd"].bind($("#" + curTable).find('.chkRow_grid:checked').closest('tr'));
@@ -558,10 +558,10 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 
 		$('#' + curTable).append(new_row);
 		
-		if ($(current_btn).parent().hasClass('action_btn_grid') == true) {
+		if ($(current_btn).parent().hasClass('action_btn_grid') === true) {
 			$(current_btn).text("-");
 			$(current_btn).removeClass('grid_add_row').removeClass('btn-success').addClass('grid_delete_rows').addClass('btn-danger');
-			$(current_btn).closest('table').find('.action_btn_grid:last').html('<button class="btn btn-success grid_add_row" type="button">+</button>');				
+			$(current_btn).closest('table').find('.action_btn_grid:last').html('<button class="btn btn-success grid_add_row" type="button">+</button>');
 		}
 	}
 	
@@ -569,7 +569,7 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 	/* == What should happen when the Save button is pressed for grid== */
 	$('.grid_save_rows').live('click', function() {
 		var div_id = $(this).parent().data('div_id');
-		if (blueprint_grid[div_id]["onSave"] == '') {
+		if (blueprint_grid[div_id]["onSave"] === '') {
 			// Default code
 		} else {
 			blueprint_grid[div_id]["onSave"]();
@@ -580,7 +580,7 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 	/* == What should happen when the Search button is pressed == */
 	$('.grid_form_search').live('click', function() {
 		var div_id = $(this).parent().data('div_id');
-		if (blueprint_grid[div_id]["onSearch"] == '') {
+		if (blueprint_grid[div_id]["onSearch"] === '') {
 			// Default code
 		} else {
 			blueprint_grid[div_id]["onSearch"]();
@@ -591,7 +591,7 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 	/* == What should happen when the Save button is pressed for form== */
 	$('.grid_form_save').live('click', function() {
 		var div_id = $(this).parent().data('div_id');
-		if (blueprint_grid[div_id]["onSave"] == '') {
+		if (blueprint_grid[div_id]["onSave"] === '') {
 			// Default code
 		} else {
 			blueprint_grid[div_id]["onSave"]();
@@ -618,7 +618,7 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 
 		});
 
-	}
+	};
 	
 	/* == Export table contents as CSV == */
 	$('.grid_export_rows').live('click', function() {
@@ -672,7 +672,7 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 	bindControlsToAsterisk = function(table_id) {
 		$("#" + table_id).find('input:text').live('change', function() {
 			if ($(this).closest('tr').find('.asterisk').val() == 'B') {
-				$(this).closest('tr').find('.asterisk').val('I');			
+				$(this).closest('tr').find('.asterisk').val('I');
 			} else if ($(this).closest('tr').find('.asterisk').val() != 'I') {
 				$(this).closest('tr').find('.asterisk').val('U');
 			}
@@ -680,7 +680,7 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 		
 		$("#" + table_id).find('select').live('click', function() {
 			if ($(this).closest('tr').find('.asterisk').val() == 'B') {
-				$(this).closest('tr').find('.asterisk').val('I');			
+				$(this).closest('tr').find('.asterisk').val('I');
 			} else if ($(this).closest('tr').find('.asterisk').val() != 'I') {
 				$(this).closest('tr').find('.asterisk').val('U');
 			}
@@ -688,12 +688,12 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 		
 		$("#" + table_id).find('checkbox').live('click', function() {
 			if ($(this).closest('tr').find('.asterisk').val() == 'B') {
-				$(this).closest('tr').find('.asterisk').val('I');			
+				$(this).closest('tr').find('.asterisk').val('I');
 			} else if ($(this).closest('tr').find('.asterisk').val() != 'I') {
 				$(this).closest('tr').find('.asterisk').val('U');
 			}
 		});
-	}
+	};
 	
 	/* == Highlight rows when checked ==*/
 	$('.chkRow_grid').live('click', function() {
@@ -706,7 +706,7 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 				$(control).closest('tr').css("background-color","silver");
 			} else {
 				$(control).closest('tr').css("background-color","white");
-			}			
+			}
 		}
 	}
 
@@ -732,7 +732,7 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 				$(this).hide();
 			}
 		});
-	}
+	};
 
 //********************************************************************************
 // Render Form
@@ -751,7 +751,7 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 		
 		var rendered_form = '<table class = "table table-bordered table-striped">';
 		
-		if (data.length != undefined) {
+		if (data.length !== undefined) {
 			blueprint_grid[target]['data'] = data;
 			multi_data = true;
 			multi_data_length = data.length;
@@ -764,12 +764,12 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 			rendered_form += '<tr>';
 			
 			var required_field = '';
-	   		if(element_type[keys[i]].required == true || element_type[keys[i]].required == "true" ) {
-	   			required_field = '<span class = "required_asterisk" style = "color: red;"> *</span>';
-	   		}
+			if(element_type[keys[i]].required === true || element_type[keys[i]].required == "true" ) {
+				required_field = '<span class = "required_asterisk" style = "color: red;"> *</span>';
+			}
 
 			var classes_to_be_applied = '';
-	   		
+
 			rendered_form += '<td>' + label[keys[i]] + ' ' + required_field + '</td>';
 			rendered_form += '<td>' + render_control(element_type[keys[i]], keys[i], data[keys[i]], element_type[keys[i]].source, classes_to_be_applied) + '</td>';
 
@@ -782,10 +782,10 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 			}
 			
 			required_field = '';
-	   		if(element_type[keys[j]].required == true || element_type[keys[j]].required == "true" ) {
-	   			required_field = '<span class = "required_asterisk" style = "color: red;"> *</span>';
-	   		}
-	   		
+			if(element_type[keys[j]].required === true || element_type[keys[j]].required == "true" ) {
+				required_field = '<span class = "required_asterisk" style = "color: red;"> *</span>';
+			}
+
 			rendered_form += '<td>' + label[keys[j]] + ' ' + required_field + '</td>';
 			rendered_form += '<td>' + render_control(element_type[keys[j]], keys[j], data[keys[j]], element_type[keys[j]].source, classes_to_be_applied) + '</td>';
 			rendered_form += '</tr>';
@@ -796,11 +796,11 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 		// Begin toolbar of form
 		var toolbar_form = '<div class="toolbar_form_grid" data-div_id="' + div_id + '">';
 		
-		if (searchVisible == 'true' || searchVisible == true) {
+		if (searchVisible == 'true' || searchVisible === true) {
 			toolbar_form += ' <button class="btn btn-primary grid_form_search" type="button">Search</button>';
 		}
 		
-		if (saveVisible == 'true' || saveVisible == true) {
+		if (saveVisible == 'true' || saveVisible === true) {
 			toolbar_form += ' <button class="btn btn-success grid_form_save" type="button">Save</button>';
 		}
 		
@@ -816,14 +816,14 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 					cur_ptr = cur_ptr - 1;
 					$(this).data('data_ptr', cur_ptr);
 					$(this).parent().find('.grid_form_next').data('data_ptr', cur_ptr);
-					$(this).parent().find('.multi_data_count_indicator').text(' ' + (parseInt(cur_ptr) + 1) + ' / ' + multi_data_length + ' ');
+					$(this).parent().find('.multi_data_count_indicator').text(' ' + (parseInt(cur_ptr, 10) + 1) + ' / ' + multi_data_length + ' ');
 					var cur_data_set = blueprint_grid[target]['data'][cur_ptr];
 					var cur_data_keys = Object.keys(cur_data_set);
 					var cur_element_type = blueprint_grid[target]['element_type'];
 					
 					$(cur_data_keys).each(function(key, value) {
 						
-						var cur_data  = cur_data_set[cur_data_keys[key]]
+						var cur_data  = cur_data_set[cur_data_keys[key]];
 						switch (cur_element_type[cur_data_keys[key]].type) {
 							case 'text':
 							case 'link':
@@ -852,14 +852,14 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 					cur_ptr = cur_ptr + 1;
 					$(this).data('data_ptr', cur_ptr);
 					$(this).parent().find('.grid_form_prev').data('data_ptr', cur_ptr);
-					$(this).parent().find('.multi_data_count_indicator').text(' ' + (parseInt(cur_ptr) + 1) + ' / ' + multi_data_length + ' ');
+					$(this).parent().find('.multi_data_count_indicator').text(' ' + (parseInt(cur_ptr, 10) + 1) + ' / ' + multi_data_length + ' ');
 					var cur_data_set = blueprint_grid[target]['data'][cur_ptr];
 					var cur_data_keys = Object.keys(cur_data_set);
 					var cur_element_type = blueprint_grid[target]['element_type'];
 					
 					$(cur_data_keys).each(function(key, value) {
 						
-						var cur_data  = cur_data_set[cur_data_keys[key]]
+						var cur_data  = cur_data_set[cur_data_keys[key]];
 
 						switch (cur_element_type[cur_data_keys[key]].type) {
 							case 'text':
@@ -892,21 +892,21 @@ renderGrid ({"id": "myGrid", 						// target where grid will be rendered
 
 		$("#" + target).html(rendered_form);
 		
-	   /* == On click of the Save button, what should happen? == */
-	   if (nullOrEmpty(obj["onSave"])) {
-		blueprint_grid[div_id]["onSave"] = '';
-	   } else {
-		blueprint_grid[div_id]["onSave"] = obj["onSave"];
-	   }
-	   
-	   /* == On click of the Search button, what should happen? == */
-	   if (nullOrEmpty(obj["onSearch"])) {
-		blueprint_grid[div_id]["onSearch"] = '';
-	   } else {
-		blueprint_grid[div_id]["onSearch"] = obj["onSearch"];
-	   }
+		/* == On click of the Save button, what should happen? == */
+		if (nullOrEmpty(obj["onSave"])) {
+			blueprint_grid[div_id]["onSave"] = '';
+		} else {
+			blueprint_grid[div_id]["onSave"] = obj["onSave"];
+		}
 
-	}
+		/* == On click of the Search button, what should happen? == */
+		if (nullOrEmpty(obj["onSearch"])) {
+			blueprint_grid[div_id]["onSearch"] = '';
+		} else {
+			blueprint_grid[div_id]["onSearch"] = obj["onSearch"];
+		}
+
+	};
 
 //********************************************************************************
 // Render Chart -
@@ -927,63 +927,57 @@ init_chart = function(obj) {
 
 	var key_names = Object.keys(label);
 
-    if (chart_type == "pie") {
-    	var values = [],
-	        labels = [];
-	    $(data).each(function (key, value) { 
+	if (chart_type == "pie") {
+		var values = [], labels = [];
+		$(data).each(function (key, value) {
 			labels.push(value[key_names[0]]);
-	        values.push(parseInt(value[key_names[1]], 10));
-	        
-	    });
+			values.push(parseInt(value[key_names[1]], 10));
+		});
 
-    	var r = Raphael(target),
-	    pie = r.piechart(320, 240, 100, values, { legend: labels, legendpos: "west", href: []});
+		var r = Raphael(target),
+		pie = r.piechart(320, 240, 100, values, { legend: labels, legendpos: "west", href: []});
 
-	    r.text(320, 100, "").attr({ font: "20px sans-serif" });
-	    pie.hover(function () {
-	        this.sector.stop();
-	        this.sector.scale(1.1, 1.1, this.cx, this.cy);
+		r.text(320, 100, "").attr({ font: "20px sans-serif" });
+		pie.hover(function () {
+			this.sector.stop();
+			this.sector.scale(1.1, 1.1, this.cx, this.cy);
 
-	        if (this.label) {
-	            this.label[0].stop();
-	            this.label[0].attr({ r: 7.5 });
-	            this.label[1].attr({ "font-weight": 800 });
-	        }
-	    }, function () {
-	        this.sector.animate({ transform: 's1 1 ' + this.cx + ' ' + this.cy }, 500, "bounce");
+			if (this.label) {
+				this.label[0].stop();
+				this.label[0].attr({ r: 7.5 });
+				this.label[1].attr({ "font-weight": 800 });
+			}
+		}, function () {
+			this.sector.animate({ transform: 's1 1 ' + this.cx + ' ' + this.cy }, 500, "bounce");
 
-	        if (this.label) {
-	            this.label[0].animate({ r: 5 }, 500, "bounce");
-	            this.label[1].attr({ "font-weight": 400 });
-	        }
-	    });
-    }
+			if (this.label) {
+				this.label[0].animate({ r: 5 }, 500, "bounce");
+				this.label[1].attr({ "font-weight": 400 });
+			}
+		});
+	}
 
-    if (chart_type == "bar") {
-    	var key_no = key_names.length - 1;
-    	if (key_no < 0) {
-    		alert ("No values found");
-    		return false;
-    	}
+	if (chart_type == "bar") {
+		var key_no = key_names.length - 1;
+		if (key_no < 0) {
+			alert ("No values found");
+			return false;
+		}
 
-    	var values = [],
-	        labels = [];
+	var values = [], labels = [];
 
-	    for (i=0; i<key_no; i++) {
-	    	values[i] = new Array();
-	    }
+	for (i=0; i<key_no; i++) {
+		values[i] = [];
+	}
 
-	    $(data).each(function (key, value) { 
-			labels.push(value[key_names[0]]);
+	$(data).each(function (key, value) {
+	labels.push(value[key_names[0]]);
 
-			for (i=0; i<key_no; i++) {
-	        	values[i].push(parseInt(value[key_names[i + 1]], 10));
-	        }
-	        
-	    });
+	for (i=0; i<key_no; i++) {
+	values[i].push(parseInt(value[key_names[i + 1]], 10));
+	}
 
-
-console.log(values)
+	});
 
     	var r = Raphael(target),
         fin = function () {
@@ -1005,15 +999,13 @@ console.log(values)
         },
         txtattr = { font: "12px sans-serif" };
     
-    r.text(480, 10, "").attr(txtattr); 
+    r.text(480, 10, "").attr(txtattr);
 
     r.hbarchart(330, 10, 300, 220, values, {stacked: true}).hover(fin, fout);
 
     }
- 	
 
-
-}
+};
 
 
 //********************************************************************************
@@ -1054,28 +1046,28 @@ function renderGrid(obj) {
 	}
 	
 	/* Store blueprint */
-   	var keys_of_header = Object.keys(label);
-   	var empty_row = {};
-   	
-   	for (var i = 0; i < keys_of_header.length; i++) {
-   		empty_row[keys_of_header[i]] = "";
-   	}
-   	
-   	blueprint_grid[target] = {};
-   	blueprint_grid[target]["element_type"] = element_type;
-   	map_of_blank_rows[target] = empty_row;
+	var keys_of_header = Object.keys(label);
+	var empty_row = {};
 
-   if (nullOrEmpty(data)) {
-	   	no_data = true;
-	   	
-	   	if (container == 'form') {
-	   		obj.data = empty_row;
-	   	} else if (container == 'table') {
-	   		obj.data = new Array(empty_row);
-	   	} else if (container === 'chart') {
-	   		obj.data = new Array(empty_row);
-	   	}
-   }
+	for (var i = 0; i < keys_of_header.length; i++) {
+		empty_row[keys_of_header[i]] = "";
+	}
+
+	blueprint_grid[target] = {};
+	blueprint_grid[target]["element_type"] = element_type;
+	map_of_blank_rows[target] = empty_row;
+
+	if (nullOrEmpty(data)) {
+		no_data = true;
+		
+		if (container == 'form') {
+			obj.data = empty_row;
+		} else if (container == 'table') {
+			obj.data = new Array(empty_row);
+		} else if (container === 'chart') {
+			obj.data = new Array(empty_row);
+		}
+	}
 	
 	switch (container) {
 		case 'table': init_grid_table (obj);
@@ -1101,24 +1093,26 @@ render_control = function(type, class_name, current_value, source_of_select, cla
 		current_value = '';
 	}
 	
+	var ro = '';
+
 	switch (type.type) {
 				case 'readonly': control = '<span class = "' + class_name + ' ' + classes_to_be_applied + '" name = "' + class_name + '" >'+current_value +'</span>';
-								 break;
+								break;
 
 				case 'number':
-				case 'text': 
-							 var ro = ''; 
-							 if (type.readonly == 'true') {
-							 	ro = ' readonly = "readonly"';
-							 }
+				case 'text':
+					ro = '';
+					if (type.readonly == 'true') {
+						ro = ' readonly = "readonly"';
+					}
 							
-							 control = '<input type="text" class = "' + class_name + ' ' + classes_to_be_applied + '" name = "' + class_name + '" value="' + current_value + '"' + ro + '>';
-							 break;
+							control = '<input type="text" class = "' + class_name + ' ' + classes_to_be_applied + '" name = "' + class_name + '" value="' + current_value + '"' + ro + '>';
+							break;
 
-				case 'select': var ro = ''; 
-								 if (type.readonly == 'true') {
-								 	ro = ' disabled = "disabled"';
-								 }
+				case 'select': ro = '';
+								if (type.readonly == 'true') {
+									ro = ' disabled = "disabled"';
+								}
 								control = '<select class = "' + class_name + ' ' + classes_to_be_applied + '" name = "' + class_name + '"' + ro + '>';
 								//var source_of_select = current_type.source;
 								if (nullOrEmpty(source_of_select)) {
@@ -1139,24 +1133,24 @@ render_control = function(type, class_name, current_value, source_of_select, cla
 								control += '</select>';
 								break;
 								
-				case 'checkbox':  var ro = ''; 
-								 if (type.readonly == 'true') {
-								 	ro = ' disabled = "disabled"';
-								 }
-								 
-								 var is_checked = '';
-								 if (current_value == source_of_select) {
-								 	is_checked = ' checked = "checked"';
-								 }
-								 
-								 control = '<input type="checkbox" class = "' + class_name + ' ' + classes_to_be_applied + '" value="' + current_value + '" name = "' + class_name + '"' + ro + is_checked + '>';
-								 break;
-								 
-				case 'radio':  var ro = ''; 
-								 if (type.readonly == 'true') {
-								 	ro = ' disabled = "disabled"';
-								 }
-								 
+				case 'checkbox':  ro = '';
+					if (type.readonly == 'true') {
+						ro = ' disabled = "disabled"';
+					}
+
+					var is_checked = '';
+					if (current_value == source_of_select) {
+					is_checked = ' checked = "checked"';
+					}
+
+					control = '<input type="checkbox" class = "' + class_name + ' ' + classes_to_be_applied + '" value="' + current_value + '" name = "' + class_name + '"' + ro + is_checked + '>';
+					break;
+
+				case 'radio':  ro = '';
+					if (type.readonly == 'true') {
+						ro = ' disabled = "disabled"';
+					}
+
 							control = '<div class = "radio_' + class_name + '" name = "' + class_name + '">';// + data[i][colName[j]] + '</select>';
 								//var source_of_select = current_type.source;
 								if (nullOrEmpty(source_of_select)) {
@@ -1175,74 +1169,74 @@ render_control = function(type, class_name, current_value, source_of_select, cla
 								}
 								
 								control += '</div>';
-								 break;
-								 
+								break;
+
 				case 'fnd_lookup': control = '<div name = "' + class_name + ' ' + classes_to_be_applied + '" class = "fnd_lookup ' + class_name + '" data-code = "' + current_value + '" data-fnd_lookup_code = "' + source_of_select + '" style="border: solid silver 1px; width: 100px; height: 25px; background-color: white;">' + current_value + '</div>';
-								 break;
+					break;
 				
 				case 'link':
-				    if (nullOrEmpty(current_value)){
-				       current_value=source_of_select[1];
-				       source_of_select = source_of_select[0];
-				    }else{
-				       
-				    }
-				    control = '<a href="' + source_of_select + '" name = "' + class_name + '" class = "' + class_name + ' ' + classes_to_be_applied + '">' + current_value + '</a>';
-								 break;
-								 
-				case 'date':  var ro = ''; 
-								 if (type.readonly == 'true') {
-								 	ro = ' disabled = "disabled"';
-								 }
-								 
-								 control = '<input type="text" name = "' + class_name + '" class = "date_grid ' + class_name + ' ' + classes_to_be_applied + '" value="' + current_value + '"' + ro + '>';
-							 break;
-							 
+					if (nullOrEmpty(current_value)) {
+						current_value = source_of_select[1];
+						source_of_select = source_of_select[0];
+					} else {
+
+					}
+					control = '<a href="' + source_of_select + '" name = "' + class_name + '" class = "' + class_name + ' ' + classes_to_be_applied + '">' + current_value + '</a>';
+					break;
+
+				case 'date':  ro = '';
+					if (type.readonly == 'true') {
+						ro = ' disabled = "disabled"';
+					}
+
+					control = '<input type="text" name = "' + class_name + '" class = "date_grid ' + class_name + ' ' + classes_to_be_applied + '" value="' + current_value + '"' + ro + '>';
+					break;
+
 				case 'hidden': control = '<input type="hidden" name = "' + class_name + '" class = "hidden_grid ' + class_name + ' ' + classes_to_be_applied + '" value="' + current_value + '">';
-							 break;
+					break;
 
 				case 'hidObj': control = '<input type="hidden" name = "' + class_name + '" class = "hidden_object_grid ' + class_name + ' ' + classes_to_be_applied + '" data-value="' + current_value + '">';
-							 break;
+					break;
 
-							 
-				case 'button':  var ro = ''; 
-								 if (type.readonly == 'true') {
-								 	ro = ' disabled = "disabled"';
-								 }
-								 
-								 control = '<button type="button" name = "' + class_name + '" class = "btn ' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + source_of_select + '</button>';
-							 break;
 
-				case 'reset': var ro = ''; 
-								 if (type.readonly == 'true') {
-								 	ro = ' disabled = "disabled"';
-								 }
-							 
-							 source_of_select = nullOrEmpty(source_of_select) ? 'Reset' : source_of_select;
-							 control = '<button type="reset" name = "' + class_name + '" class = "btn ' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + source_of_select + '</button>';
-							 break;
+				case 'button':  ro = '';
+					if (type.readonly == 'true') {
+						ro = ' disabled = "disabled"';
+					}
 
-				case 'submit':  var ro = ''; 
-								 if (type.readonly == 'true') {
-								 	ro = ' disabled = "disabled"';
-								 }
-								 
-							 source_of_select = nullOrEmpty(source_of_select) ? 'Submit' : source_of_select;
-							 control = '<button type="submit" name = "' + class_name + '" class = "btn ' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + source_of_select + '</button>';
-							 break;
-							 
-				case 'textarea':  var ro = ''; 
-								 if (type.readonly == 'true') {
-								 	ro = ' disabled = "disabled"';
-								 }
-								 
-								 control = '<textarea name = "' + class_name + '" class = "' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + current_value + '</textarea>';
-							 break;
+				control = '<button type="button" name = "' + class_name + '" class = "btn ' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + source_of_select + '</button>';
+				break;
+
+				case 'reset': ro = '';
+					if (type.readonly == 'true') {
+					ro = ' disabled = "disabled"';
+					}
+
+				source_of_select = nullOrEmpty(source_of_select) ? 'Reset' : source_of_select;
+				control = '<button type="reset" name = "' + class_name + '" class = "btn ' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + source_of_select + '</button>';
+				break;
+
+				case 'submit':  ro = '';
+				if (type.readonly == 'true') {
+				ro = ' disabled = "disabled"';
+				}
+
+				source_of_select = nullOrEmpty(source_of_select) ? 'Submit' : source_of_select;
+				control = '<button type="submit" name = "' + class_name + '" class = "btn ' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + source_of_select + '</button>';
+				break;
+
+				case 'textarea':  ro = '';
+					if (type.readonly == 'true') {
+						ro = ' disabled = "disabled"';
+					}
+
+					control = '<textarea name = "' + class_name + '" class = "' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + current_value + '</textarea>';
+				break;
 
 			}
 
 	return control;
-}
+};
 
 
 // From: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
@@ -1253,8 +1247,8 @@ if (!Function.prototype.bind) {
       throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
     }
 
-    var aArgs = Array.prototype.slice.call(arguments, 1), 
-        fToBind = this, 
+    var aArgs = Array.prototype.slice.call(arguments, 1),
+        fToBind = this,
         fNOP = function () {},
         fBound = function () {
           return fToBind.apply(this instanceof fNOP
@@ -1288,10 +1282,10 @@ $.fn.serializeObject = function()
 };
 /* Null or Empty */
 nullOrEmpty = function(param) {
-   if (param == "" || param == null || param == undefined) {
+   if (param === "" || param === null || param === undefined) {
 	return true;
    } else {
 	return false;
    }
-}
+};
 
