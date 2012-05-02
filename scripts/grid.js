@@ -211,24 +211,24 @@ Other parameters (optional) are explained against them in the example call below
         no_of_cols = Object.keys(header).length;
 
         /* == Preparing toolbar == */
-        if (nullOrEmpty(obj["saveVisible"]) || _is_true(obj["saveVisible"])) {
+        if (_is_true(obj["saveVisible"])) {
         grid_toolbar += '<button class="btn btn-primary grid_save_rows" type="button">Save</button>&nbsp;';
         }
 
-        if (_is_true(obj["addVisible"] == 'true') || nullOrEmpty(obj["addVisible"])) {
+        if (_is_true(obj["addVisible"])) {
             if(actionButtonPosition != 'line') {
                 grid_toolbar += '<button class="btn btn-success grid_add_row" type="button">Add Row</button>&nbsp;';
             }
         }
 
-        if (nullOrEmpty(obj["deleteVisible"]) || _is_true(obj["deleteVisible"])) {
+        if (_is_true(obj["deleteVisible"])) {
             if(actionButtonPosition != 'line') {
                 grid_toolbar += '<button class="btn btn-danger grid_delete_rows" type="button">Delete Row</button>';
             }
         }
 
         // Toolbar - export table as csv
-        if (!_is_false(obj["exportVisible"])) {
+        if (_is_true(obj["exportVisible"])) {
             grid_toolbar += ' <button class="btn btn-info grid_export_rows" type="button"><img src="./images/export.jpg"> Export</button>';
         }
 
@@ -791,7 +791,7 @@ Other parameters (optional) are explained against them in the example call below
 //********************************************************************************
 // Render Form
 //********************************************************************************
-	init_form = function(obj) {
+	init_grid_form = function(obj) {
 		var target = obj["id"];
 	
 		var label = obj["label"];
@@ -966,7 +966,7 @@ Other parameters (optional) are explained against them in the example call below
 // Render Chart -
 //********************************************************************************
 
-init_chart = function(obj) {
+init_grid_chart = function(obj) {
 	chart_type = obj["chart_type"];
 
 	if (nullOrEmpty(chart_type)) {
@@ -1138,10 +1138,10 @@ return false;
 	switch (container) {
 		case 'table': init_grid_table (obj);
 						break;
-		case 'form': init_form (obj);
+		case 'form': init_grid_form (obj);
 						break;
 
-		case 'chart': init_chart(obj);
+		case 'chart': init_grid_chart(obj);
 						break;
 	}
 	

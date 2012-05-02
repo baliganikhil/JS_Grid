@@ -15,6 +15,19 @@
 	<link rel="stylesheet" href="./css/jquery-ui.css" type="text/css" media="all" />
 	-->
 
+	<link type="text/css" rel="stylesheet" href="/home/nikhilbaliga/src/hq/common/css/bootstrap/css/bootstrap.css" /> 
+
+	<style type="text/css">
+	.mycode {
+		/*width: 100%;
+		height: 300px;
+		border: solid 1px silver;
+		background: silver;
+		font-family: courier;
+		overflow: auto;*/
+		font-size: 11px;
+	}
+	</style>
 	
 	<script src="./scripts/jquery-1.7.1.min.js"></script>
 	<script src="./scripts/grid.js"></script>
@@ -55,11 +68,11 @@
 	//			  "onSave": custom_function_save,			// Function to be called on pressing of save button
 	//			  "onAdd": custom_function_add,				// Function to be called on pressing of add button
 	//			  "onSearch": custom_function_add,			// Function to be called on pressing of search button
-				  "addVisible": "true",					// Indicates whether Add button should be visible
-				  "deleteVisible": "true",					// Indicates whether Delete button should be visible
-				  "saveVisible": "false",					// Indicates whether Save button should be visible
-				  "searchVisible": "false",					// Indicates whether Search button should be visible
-				  "exportVisible": "false",					// Indicates whether Export button should be visible
+	//			  "addVisible": "true",					// Indicates whether Add button should be visible
+				  // "deleteVisible": "true",					// Indicates whether Delete button should be visible
+				  // "saveVisible": "false",					// Indicates whether Save button should be visible
+				  // "searchVisible": "false",					// Indicates whether Search button should be visible
+				  // "exportVisible": "false",					// Indicates whether Export button should be visible
 	//			  "sort": true,								// Indicates whether Sorting feature is enabled
 	//			  "draggableRows": true,					// Indicates whether Rows can be moved up and down by dragging
 	//			  "draggableCols": true,					// Indicates whether Columns can be repositioned by dragging
@@ -77,8 +90,214 @@ function custom_function_delete() {
 	</script>
 </head>
 <body>
+<h1>JS_Grid</h1>
+<p> Welcome to the JS_Grid tutorial. This page has a few examples which will help you get familiarised with the various features available.</p>
 
-<div id="myGrid"></div>
+<p>In its most basic form, we see a simple table shown. One of the features that comes along with this table is the ability to hide columns. Click on the minus sign to hide a column.</p>
 
+<p>We will slowly add more features as we proceed. For now, Copy-Paste the following code into your file.</p>
+
+<!-- Begin basic table -->
+<div class="mycode">
+<script src="https://gist.github.com/2577891.js?file=gistfile1.html"></script>
+</div>
+
+
+<br><b>Basic table</b><br>
+<div id="basic_grid_1" style="height:200px;"></div>
+<hr>
+<!-- End basic table -->
+
+<h3>Query By Example (QBE)</h3>
+Now that you have seen the basic table being rendered, let's now enable QBE - Query By Example<br>
+QBE is column-wise filtering.
+
+<p>Type 'nik' (no quotes) in the text-box that appears above Name. Try doing the same in Age and Department. The Department column cannot be filtered because QBE has been disabled for it.
+
+<p>From now on, the boiler-plate html won't ne shown. Only the script will be updated</p>
+
+<!-- Demo of QBE -->
+<div class="mycode">
+<script src="https://gist.github.com/2578164.js?file=gistfile1.js"></script>
+</div>
+<div id="basic_grid_qbe" style="height:300px;"></div>
+<!-- End demo of QBE -->
+
+<p>
+<h3>Element types</h3>
+Till now, our tables had only readonly fields. Now, in this table, we show how text boxes and select boxes can be provided. We can also use radio buttons, checkboxes, date fields etc. along with it.<p>
+
+Also, notice the red asterisk against Age - since we have marked it as required. We can also automatically validate it.<p>
+<!-- Demo of Element types -->
+<div class="mycode">
+<script src="https://gist.github.com/2578366.js?file=gistfile1.js"></script>
+</div>
+<div id="basic_grid_element_types" style="height:300px;"></div>
+<!-- End demo of Element types -->
+
+<p>
+	<h3>Add and Delete Rows</h3>
+	In this example, we add two buttons which allows users to add and delete rows. The add and delete buttons in this example are in the toolbar at the top.<p>To delete a row, select a row by clicking on the radio button against it and click on Delete row. To add row, simply click on Add row.
+
+<div class="mycode">
+<script src="https://gist.github.com/2578449.js?file=gistfile1.js"></script>
+</div>
+<div id="add_remove_rows" style="height:400px;"></div>
+
+<p>
+<h3>Get Add/Delete buttons per row</h3>
+By keeping the code same as above and just adding "actionButtonPosition":"line" as option, we can bring Add and Delete buttons at the end of each row as shown below<p>
+
+<div class="mycode">
+<script src="https://gist.github.com/2578544.js?file=gistfile1.js"></script>
+</div>
+<div id="add_remove_rows_actionbutton" style="height:400px;"></div>
+</p>
+
+<p>
+	<h3>Multi-data forms</h3>
+	<p>You can represent the same data as a multi-data form by just modifying the <strong>Container</strong> field - change the value from table to form, no other change is required!</p>
+
+	<p>Keeping options relevant to table while creating a form is not going to cause any harm - they will simply be ignored.</p>
+
+	<div class="mycode">
+	<script src="https://gist.github.com/2578887.js?file=gistfile1.js"></script>
+	</div>
+	<div id="multi_data_form" style="height: 300px"></div>
+</p>
+
+<p>
+<h3>Custom functions on Add/Delete</h3>
+<p>You have already seen how Add and Delete buttons behave by default. In this example, we see how to override default behaviour.</p>
+
+<p>On clicking on Add button, we are simply calling a function that does an "Alert" here. You can replace this by any other function of choice</p>
+
+<p>You can access the row(s) affected by the buttons as well. For instance, clicking on the delete button by default simply strikes out the contents of the row, disables all fields, hides the radio button. However, in this example, I have overriden the function with a custom one to delete the row. You can access the current row by using $(this) as shown in the example - this way you can write your own code</p>
+
+<div class="mycode">
+<script src="https://gist.github.com/2578930.js?file=gistfile1.js"></script>
+</div>
+<div id="custom_delete_add" style="height: 300px"></div>
+</p>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('div.mycode').before('<button class="show_code">Show Code</button>')
+	$('div.mycode').hide();
+	$('.show_code').live('click', function() {
+		$(this).next('div.mycode').toggle('slow');
+		if ($(this).text() == 'Show Code') {
+			$(this).text('Hide Code');
+		} else {
+			$(this).text('Show Code');
+		}
+	});
+
+
+	var label = {"name": "Name", "age": "Age", "dept": "Department"};
+	var data = [{"name": "Nikhil", "age": "24", "dept": "EC", "lastname": "Baliga"}, 
+                {"name": "Amod", "age": "29", "dept": "EC", "lastname": "Pandey"}, 
+                {"name": "Balu", "age": "32", "dept": "ME", "lastname": "S"}];
+
+    // Basic grid
+    renderGrid({
+    	"id": "basic_grid_1",         // target where grid will be rendered
+		"label": label,         // heading or label in table or form resp
+		"data": data,           // Data as array of objects or object
+		"container": "table"    // container = table/form - Control to be rendered
+	});
+
+    // Basic QBE
+	var qbeEnabled = [true, true, false];
+	renderGrid({
+    	"id": "basic_grid_qbe",
+		"label": label,         
+		"data": data,             
+		"container": "table",     
+		"qbeEnabled": qbeEnabled // Array with true/false for Query By Example
+	});
+
+	var element_type = {
+	  		"name": {"type":"readonly"},
+	  		"age":  {"type":"text", "required": "true", "summable": "false"},
+	  		"dept": {"type":"select", "source":{"EC":"Electronics", "CS":"Comp Sci", "ME":"Mech"}}
+	  		};
+
+	renderGrid({
+    	"id": "basic_grid_element_types",
+		"label": label,         
+		"data": data,             
+		"container": "table",
+		"element_type": element_type
+	});
+
+	element_type = {
+	  		"name": {"type":"text"},
+	  		"age":  {"type":"text", "required": "true", "summable": "false"},
+	  		"dept": {"type":"select", "source":{"EC":"Electronics", "CS":"Comp Sci", "ME":"Mech"}}
+	  		};
+
+	renderGrid({
+    	"id": "add_remove_rows",
+		"label": label,
+		"data": data,
+		"element_type": element_type,
+		"qbeEnabled": qbeEnabled,
+		"container": "table",
+		"addVisible": true,
+		"deleteVisible": true
+	});
+
+	renderGrid({
+    	"id": "add_remove_rows_actionbutton",
+		"label": label,
+		"data": data,
+		"element_type": element_type,
+		"qbeEnabled": qbeEnabled,
+		"container": "table",
+		"addVisible": true,
+		"deleteVisible": true,
+		"actionButtonPosition":"line"	// If this line is included, Add/Delete buttons appear at end of each table row
+	});
+
+	renderGrid({
+    	"id": "multi_data_form",
+		"label": label,
+		"data": data,
+		"element_type": element_type,
+		"qbeEnabled": qbeEnabled,
+		"container": "form",
+		"addVisible": true,
+		"deleteVisible": true,
+		"actionButtonPosition":"line"	// If this line is included, Add/Delete buttons appear at end of each table row
+	});
+
+	renderGrid({
+    	"id": "custom_delete_add",
+		"label": label,
+		"data": data,
+		"element_type": element_type,
+		"qbeEnabled": qbeEnabled,
+		"container": "table",
+		"addVisible": true,
+		"deleteVisible": true,
+		"actionButtonPosition":"line",	// If this line is included, Add/Delete buttons appear at end of each table row
+		"onAdd": custom_add_function,
+		"onDelete": custom_delete_function
+	});
+
+	function custom_add_function() {
+		alert("You clicked the add button");
+	}
+
+	function custom_delete_function() {
+		$(this).detach();
+	}
+
+	
+
+});
+</script>
 </body>
 </html>
