@@ -51,7 +51,8 @@ label is a REQUIRED field. Used for heading of columns in table and label in for
 var label = {"name":"Name", "age":"Age", "dept":"Department"};
 
 ####Element Type
-element_type is a REQUIRED field for Tables and Forms. Used for type of rendering, and source is needed for 'select'
+element_type is an *Optional* field for Tables and Forms. Used for type of rendering, and source is needed for 'select'.
+If element_type is not provided, it defaults to readonly
 
     var element_type = {
     		"name": {"type":"readonly"},

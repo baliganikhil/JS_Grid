@@ -130,7 +130,7 @@ Other parameters (optional) are explained against them in the example call below
 	renderGrid ({"id": "myGrid",			// target where grid will be rendered
 		"label": label,							// heading or label in table or form resp
 		"data": data,							// Data as array of objects or object
-		"element_type": type,					// Object with data types for rendering (see above)
+		"element_type": element_type,			// Object with data types for rendering (see above)
 		"qbeEnabled": qbeEnabled,				// Array with true/false for Query By Example
 		"multiSelect": false,					// Flag indicating if multiple rows or single can be selected
 		"container": "table",					// container = table/form - Control to be rendered
@@ -695,11 +695,6 @@ Other parameters (optional) are explained against them in the example call below
 		$('#' + div_id).find("." + getClass).closest('td').hide();
 		$('#' + div_id).find("." + getClass).closest('th').hide();
 		
-		/*var frozen_columns = $('#' + div_id + ' .frozen_grid th');
-		$('#' + div_id + ' .table_pane_grid tr:first td').each(function(key, value) {
-			$(frozen_columns[key]).css('width', $(value).width());
-		});*/
-		
 		event.preventDefault();
 	});
 	
@@ -721,9 +716,9 @@ Other parameters (optional) are explained against them in the example call below
 				curValue = 0;
 			}
 
-			sum = parseFloat(sum) + parseFloat(curValue);
+			sum = parseFloat(sum, 10) + parseFloat(curValue, 10);
 		});
-		
+
 		$('.' + curClass + '_sum').text(sum);
 	});
 
@@ -985,9 +980,9 @@ init_chart = function(obj) {
 	var data = obj["data"];
 
 	var key_names = Object.keys(label);
+    var values = [], labels = [];
 
 	if (chart_type == "pie") {
-		var values = [], labels = [];
 		$(data).each(function (key, value) {
 			labels.push(value[key_names[0]]);
 			values.push(parseInt(value[key_names[1]], 10));
@@ -1023,7 +1018,7 @@ init_chart = function(obj) {
 			return false;
 		}
 
-	var values = [], labels = [];
+	values = [], labels = [];
 
 	for (i=0; i<key_no; i++) {
 		values[i] = [];
@@ -1099,10 +1094,23 @@ function renderGrid(obj) {
 		return false;
 	}
 	
-	if (nullOrEmpty(element_type) && container != 'chart') {
-		alert("JS_Grid: Element Type has not been passed. Param 'element_type' missing");
-		return false;
-	}
+/*if (nullOrEmpty(element_type) && container != 'chart') {
+alert("JS_Grid: Element Type has not been passed. Param 'element_type' missing");
+return false;
+}*/
+
+    if (nullOrEmpty(element_type)) {
+        var label_keys = Object.keys(label);
+        element_type = {};
+
+        $(label_keys).each(function(key, value){
+            element_type[value] = {"type":"readonly"};
+        });
+
+        obj["element_type"] = element_type;
+    }
+
+    console.log(element_type);
 	
 	/* Store blueprint */
 	var keys_of_header = Object.keys(label);
@@ -1128,7 +1136,7 @@ function renderGrid(obj) {
 		}
 	}
 
-    // Now move to rendering function    
+    // Now move to rendering function
 	switch (container) {
 		case 'table': init_grid_table (obj);
 						break;
@@ -1156,144 +1164,144 @@ render_control = function(type, class_name, current_value, source_of_select, cla
 	var ro = '';
 
 	switch (type.type) {
-				case 'readonly': control = '<span class = "' + class_name + ' ' + classes_to_be_applied + '" name = "' + class_name + '" >'+current_value +'</span>';
-								break;
+		case 'readonly': control = '<span class = "' + class_name + ' ' + classes_to_be_applied + '" name = "' + class_name + '" >'+current_value +'</span>';
+			break;
 
-				case 'number':
-				case 'text':
-					ro = '';
-					if (type.readonly == 'true') {
-						ro = ' readonly = "readonly"';
-					}
-							
-							control = '<input type="text" class = "' + class_name + ' ' + classes_to_be_applied + '" name = "' + class_name + '" value="' + current_value + '"' + ro + '>';
-							break;
+		case 'number':
+		case 'text':
+			ro = '';
+			if (type.readonly == 'true') {
+				ro = ' readonly = "readonly"';
+			}
+					
+			control = '<input type="text" class = "' + class_name + ' ' + classes_to_be_applied + '" name = "' + class_name + '" value="' + current_value + '"' + ro + '>';
+			break;
 
-				case 'select': ro = '';
-								if (type.readonly == 'true') {
-									ro = ' disabled = "disabled"';
-								}
-								control = '<select class = "' + class_name + ' ' + classes_to_be_applied + '" name = "' + class_name + '"' + ro + '>';
-								//var source_of_select = current_type.source;
-								if (nullOrEmpty(source_of_select)) {
-									alert("The source of the dropdown box has not been specified. Param 'source' is missing");
-									return false;
-								}
-								
-								var keys_of_select = Object.keys(source_of_select);
-								for (var z = 0; z < keys_of_select.length; z++) {
-									if (current_value == keys_of_select[z]) {
-										control += '<option value = "' + keys_of_select[z] + '" selected = "selected">' + source_of_select[keys_of_select[z]] + '</option>';
-									} else {
-										control += '<option value = "' + keys_of_select[z] + '">' + source_of_select[keys_of_select[z]] + '</option>';
-									}
-									
-								}
-								
-								control += '</select>';
-								break;
-								
-				case 'checkbox':  ro = '';
-					if (type.readonly == 'true') {
-						ro = ' disabled = "disabled"';
-					}
-
-					var is_checked = '';
-					if (current_value == source_of_select) {
-					is_checked = ' checked = "checked"';
-					}
-
-					control = '<input type="checkbox" class = "' + class_name + ' ' + classes_to_be_applied + '" value="' + current_value + '" name = "' + class_name + '"' + ro + is_checked + '>';
-					break;
-
-				case 'radio':  ro = '';
-					if (type.readonly == 'true') {
-						ro = ' disabled = "disabled"';
-					}
-
-							control = '<div class = "radio_' + class_name + '" name = "' + class_name + '">';// + data[i][colName[j]] + '</select>';
-								//var source_of_select = current_type.source;
-								if (nullOrEmpty(source_of_select)) {
-									alert("The source of the radio controls has not been specified. Param 'source' is missing");
-									return false;
-								}
-								
-								var value_of_radio = Object.keys(source_of_select);
-								for (var z = 0; z < value_of_radio.length; z++) {
-									if (current_value == value_of_radio[z]) {
-										control += '<span class="radio_span_' + class_name + ' ' + classes_to_be_applied + '"><input type = "radio" name = "' + class_name + '" class = "' + class_name + '" value = "' + value_of_radio[z] + '" checked = "checked" ' + ro + '><span class="radio_label radio_labe_"' + class_name + '> ' + source_of_select[value_of_radio[z]] + '</span></span> &nbsp;&nbsp;&nbsp;';
-									} else {
-										control += '<span class="radio_span_' + class_name + ' ' + classes_to_be_applied + '"><input type = "radio" name = "' + class_name + '" class = "' + class_name + '" value = "' + value_of_radio[z] + '"' + ro + '><span class="radio_label radio_label_"' + class_name + '> ' + source_of_select[value_of_radio[z]] + '</span></span> &nbsp;&nbsp;&nbsp;';
-									}
-									
-								}
-								
-								control += '</div>';
-								break;
-
-				case 'fnd_lookup': control = '<div name = "' + class_name + ' ' + classes_to_be_applied + '" class = "fnd_lookup ' + class_name + '" data-code = "' + current_value + '" data-fnd_lookup_code = "' + source_of_select + '" style="border: solid silver 1px; width: 100px; height: 25px; background-color: white;">' + current_value + '</div>';
-					break;
-				
-				case 'link':
-					if (nullOrEmpty(current_value)) {
-						current_value = source_of_select[1];
-						source_of_select = source_of_select[0];
-					} else {
-
-					}
-					control = '<a href="' + source_of_select + '" name = "' + class_name + '" class = "' + class_name + ' ' + classes_to_be_applied + '">' + current_value + '</a>';
-					break;
-
-				case 'date':  ro = '';
-					if (type.readonly == 'true') {
-						ro = ' disabled = "disabled"';
-					}
-
-					control = '<input type="text" name = "' + class_name + '" class = "date_grid ' + class_name + ' ' + classes_to_be_applied + '" value="' + current_value + '"' + ro + '>';
-					break;
-
-				case 'hidden': control = '<input type="hidden" name = "' + class_name + '" class = "hidden_grid ' + class_name + ' ' + classes_to_be_applied + '" value="' + current_value + '">';
-					break;
-
-				case 'hidObj': control = '<input type="hidden" name = "' + class_name + '" class = "hidden_object_grid ' + class_name + ' ' + classes_to_be_applied + '" data-value="' + current_value + '">';
-					break;
-
-
-				case 'button':  ro = '';
-					if (type.readonly == 'true') {
-						ro = ' disabled = "disabled"';
-					}
-
-				control = '<button type="button" name = "' + class_name + '" class = "btn ' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + source_of_select + '</button>';
-				break;
-
-				case 'reset': ro = '';
-					if (type.readonly == 'true') {
-					ro = ' disabled = "disabled"';
-					}
-
-				source_of_select = nullOrEmpty(source_of_select) ? 'Reset' : source_of_select;
-				control = '<button type="reset" name = "' + class_name + '" class = "btn ' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + source_of_select + '</button>';
-				break;
-
-				case 'submit':  ro = '';
-				if (type.readonly == 'true') {
+		case 'select': ro = '';
+			if (type.readonly == 'true') {
 				ro = ' disabled = "disabled"';
+			}
+			control = '<select class = "' + class_name + ' ' + classes_to_be_applied + '" name = "' + class_name + '"' + ro + '>';
+
+			if (nullOrEmpty(source_of_select)) {
+				alert("The source of the dropdown box has not been specified. Param 'source' is missing");
+				return false;
+			}
+			
+			var keys_of_select = Object.keys(source_of_select);
+			for (var z = 0; z < keys_of_select.length; z++) {
+				if (current_value == keys_of_select[z]) {
+					control += '<option value = "' + keys_of_select[z] + '" selected = "selected">' + source_of_select[keys_of_select[z]] + '</option>';
+				} else {
+					control += '<option value = "' + keys_of_select[z] + '">' + source_of_select[keys_of_select[z]] + '</option>';
 				}
+				
+			}
+			
+			control += '</select>';
+			break;
+						
+		case 'checkbox':  ro = '';
+			if (type.readonly == 'true') {
+				ro = ' disabled = "disabled"';
+			}
 
-				source_of_select = nullOrEmpty(source_of_select) ? 'Submit' : source_of_select;
-				control = '<button type="submit" name = "' + class_name + '" class = "btn ' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + source_of_select + '</button>';
-				break;
+			var is_checked = '';
+			if (current_value == source_of_select) {
+			is_checked = ' checked = "checked"';
+			}
 
-				case 'textarea':  ro = '';
-					if (type.readonly == 'true') {
-						ro = ' disabled = "disabled"';
-					}
+			control = '<input type="checkbox" class = "' + class_name + ' ' + classes_to_be_applied + '" value="' + current_value + '" name = "' + class_name + '"' + ro + is_checked + '>';
+			break;
 
-					control = '<textarea name = "' + class_name + '" class = "' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + current_value + '</textarea>';
-				break;
+		case 'radio':  ro = '';
+			if (type.readonly == 'true') {
+				ro = ' disabled = "disabled"';
+			}
+
+					control = '<div class = "radio_' + class_name + '" name = "' + class_name + '">';// + data[i][colName[j]] + '</select>';
+						//var source_of_select = current_type.source;
+						if (nullOrEmpty(source_of_select)) {
+							alert("The source of the radio controls has not been specified. Param 'source' is missing");
+							return false;
+						}
+						
+						var value_of_radio = Object.keys(source_of_select);
+						for (var z = 0; z < value_of_radio.length; z++) {
+							if (current_value == value_of_radio[z]) {
+								control += '<span class="radio_span_' + class_name + ' ' + classes_to_be_applied + '"><input type = "radio" name = "' + class_name + '" class = "' + class_name + '" value = "' + value_of_radio[z] + '" checked = "checked" ' + ro + '><span class="radio_label radio_labe_"' + class_name + '> ' + source_of_select[value_of_radio[z]] + '</span></span> &nbsp;&nbsp;&nbsp;';
+							} else {
+								control += '<span class="radio_span_' + class_name + ' ' + classes_to_be_applied + '"><input type = "radio" name = "' + class_name + '" class = "' + class_name + '" value = "' + value_of_radio[z] + '"' + ro + '><span class="radio_label radio_label_"' + class_name + '> ' + source_of_select[value_of_radio[z]] + '</span></span> &nbsp;&nbsp;&nbsp;';
+							}
+							
+						}
+						
+						control += '</div>';
+						break;
+
+		case 'fnd_lookup': control = '<div name = "' + class_name + ' ' + classes_to_be_applied + '" class = "fnd_lookup ' + class_name + '" data-code = "' + current_value + '" data-fnd_lookup_code = "' + source_of_select + '" style="border: solid silver 1px; width: 100px; height: 25px; background-color: white;">' + current_value + '</div>';
+			break;
+		
+		case 'link':
+			if (nullOrEmpty(current_value)) {
+				current_value = source_of_select[1];
+				source_of_select = source_of_select[0];
+			} else {
 
 			}
+			control = '<a href="' + source_of_select + '" name = "' + class_name + '" class = "' + class_name + ' ' + classes_to_be_applied + '">' + current_value + '</a>';
+			break;
+
+		case 'date':  ro = '';
+			if (type.readonly == 'true') {
+				ro = ' disabled = "disabled"';
+			}
+
+			control = '<input type="text" name = "' + class_name + '" class = "date_grid ' + class_name + ' ' + classes_to_be_applied + '" value="' + current_value + '"' + ro + '>';
+			break;
+
+		case 'hidden': control = '<input type="hidden" name = "' + class_name + '" class = "hidden_grid ' + class_name + ' ' + classes_to_be_applied + '" value="' + current_value + '">';
+			break;
+
+		case 'hidObj': control = '<input type="hidden" name = "' + class_name + '" class = "hidden_object_grid ' + class_name + ' ' + classes_to_be_applied + '" data-value="' + current_value + '">';
+			break;
+
+
+		case 'button':  ro = '';
+			if (type.readonly == 'true') {
+				ro = ' disabled = "disabled"';
+			}
+
+		control = '<button type="button" name = "' + class_name + '" class = "btn ' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + source_of_select + '</button>';
+		break;
+
+		case 'reset': ro = '';
+			if (type.readonly == 'true') {
+			ro = ' disabled = "disabled"';
+			}
+
+		source_of_select = nullOrEmpty(source_of_select) ? 'Reset' : source_of_select;
+		control = '<button type="reset" name = "' + class_name + '" class = "btn ' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + source_of_select + '</button>';
+		break;
+
+		case 'submit':  ro = '';
+		if (type.readonly == 'true') {
+		ro = ' disabled = "disabled"';
+		}
+
+		source_of_select = nullOrEmpty(source_of_select) ? 'Submit' : source_of_select;
+		control = '<button type="submit" name = "' + class_name + '" class = "btn ' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + source_of_select + '</button>';
+		break;
+
+		case 'textarea':  ro = '';
+			if (type.readonly == 'true') {
+				ro = ' disabled = "disabled"';
+			}
+
+			control = '<textarea name = "' + class_name + '" class = "' + class_name + ' ' + classes_to_be_applied + '"' + ro + '>' + current_value + '</textarea>';
+		break;
+
+	}
 
 	return control;
 };
