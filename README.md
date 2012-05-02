@@ -23,6 +23,7 @@ Create an empty div with id = myGrid.
                 {"name":"Niyaz", "age":"27", "dept":"CS", "lastname": "PK"}
                 ];
 
+     // Actual call - Renders a table    
      renderGrid ({"id": "myGrid",        	// target where grid will be rendered
            "label": label,             		// heading or label in table or form resp
            "data": data,               		// Data as array of objects or object - If not provided, empty table is created
