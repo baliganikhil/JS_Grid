@@ -8,7 +8,6 @@
 	<script type="text/javascript" src="./scripts/jquery-ui-1.8.19.custom.min.js"></script>
 	<script src="./scripts/raphael.js"></script>
 	<script type="text/javascript" src="./scripts/g.raphael-min.js"></script>
-	<script type="text/javascript" src="./scripts/g.pie-min.js"></script>
 	<script type="text/javascript" src="./scripts/g.bar-min.js"></script>
 	<script type="text/javascript" src="./scripts/jquery.tablesorter.min.js"></script>
 
@@ -180,6 +179,49 @@ By keeping the code same as above and just adding "actionButtonPosition":"line" 
 <div id="custom_delete_add" style="height: 300px"></div>
 </p>
 
+<p>
+<h3>Retrieving data from a table - No sweat</h3>
+Normally, we retrieve data from a database and present it to users. The user can make some changes, like add new rows and fill some data, or delete or update an existing row. When the user clicks on save, we want to send only the modified rows back to the database - instead of ALL the rows. This is very useful because we are sending only relevant information
+
+<p>We have a ready function called tableToJson - All you need to do is send a parameter to it - the ID of the div that was used to create it. Also, notice we are bringing up the save button.
+</p>
+
+<p>To see how  this works, first click on "Save" button. You should get a popup with an empty JSON - []. Then modify any field in any row, and click on Save again. This time you should get the modified row up in the alert. Instead of alerting, you should be sending that data to your server scripts</p>
+
+<div class="mycode">
+<script src="https://gist.github.com/2579409.js?file=gistfile1.js"></script>
+</div>
+<div id="table_to_json_demo" style="height: 300px"></div>
+
+<p>
+<h3>Say hello to Charts</h3>
+<p>Just like the same table could be rendered as a multi-data form, we can represent them as Charts as well. All you need to include is Raphael JS files along with it. We are now using the same example as before. The difference is that the container = chart, and chart_type = pie/bar</p>
+
+<div class="mycode">
+<script src="https://gist.github.com/2579168.js?file=gistfile1.html"></script>
+</div>
+<div id="pie_chart" style="height: 500px;"></div>
+
+<p>
+Keeping the code same, let us now change chart_type from pie to bar
+<div id="bar_chart" style="height: 500px;"></div>
+</p>
+
+<p>
+And in this next example, you can see that we can have multi-value graphs with the same ease.
+<div class="mycode">
+<script src="https://gist.github.com/2579264.js?file=gistfile1.html"></script>
+</div>
+<div id="multi_bar_chart"></div>
+
+</p>
+
+</p>
+
+<script type="text/javascript" src="https://raw.github.com/DmitryBaranovskiy/raphael/master/raphael-min.js"></script>
+<script type="text/javascript" src="https://raw.github.com/DmitryBaranovskiy/g.raphael/master/min/g.raphael-min.js"></script>
+<script type="text/javascript" src="https://raw.github.com/DmitryBaranovskiy/g.raphael/master/min/g.pie-min.js"></script>
+<script type="text/javascript" src="https://raw.github.com/DmitryBaranovskiy/g.raphael/master/min/g.bar-min.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -294,6 +336,55 @@ $(document).ready(function() {
 	function custom_delete_function() {
 		$(this).detach();
 	}
+
+	renderGrid({
+    	"id": "table_to_json_demo",
+		"label": label,
+		"data": data,
+		"element_type": element_type,
+		"qbeEnabled": qbeEnabled,
+		"container": "table",
+		"saveVisible": "true",
+		"onSave": custom_save_function
+	});
+
+    function custom_save_function() {
+    	alert( JSON.stringify( tableToJson("table_to_json_demo") ));
+    }
+
+	renderGrid({
+    	"id": "pie_chart",
+		"label": label,
+		"data": data,
+		"element_type": element_type,
+		"qbeEnabled": qbeEnabled,
+		"container": "chart",
+		"chart_type": "pie"
+	});
+
+	renderGrid({
+    	"id": "bar_chart",
+		"label": label,
+		"data": data,
+		"element_type": element_type,
+		"qbeEnabled": qbeEnabled,
+		"container": "chart",
+		"chart_type": "bar"
+	});
+
+	var label = {"name": "Name", "math": "Math", "science": "Science", "english": "English"};
+
+	var data = [{"name": "Nikhil", "math": "45", "science": "82", "english": "92"}, 
+                {"name": "Amod", "math": "72", "science": "29", "english": "87"}, 
+                {"name": "Balu", "math": "68", "science": "92", "english": "23"}];
+
+    renderGrid({
+    	"id": "multi_bar_chart",
+		"label": label,
+		"data": data,
+		"container": "chart",
+		"chart_type": "bar"
+	});
 
 	
 
