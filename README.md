@@ -101,7 +101,13 @@ When changes happen, a hidden field called 'asterisk' gets updated.
 * If an existing row was modified, it will have U (Updated)
 * If an existing row was deleted, it will have D (Deleted)
 
-Using this, we can easily find out what happened to that row. A function (soon to be updated) will allow you to get the data in a JSON format directly based on Asterisk.
+Using this, we can easily find out what happened to that row. 
+
+A function `tableToJson` allows you to get the data in a JSON format directly based on Asterisk - Only relevant (deleted, modified, new with values) will be returned. The syntax is:
+
+        tableToJson('myGrid');
+
+... where myGrid is the Id parameter that you had used to render the table, it's basically the Id of the Div in which the table was rendered. This function returns an array.
 
 ####Multi Select
 There are some instances when we want to select a single row only, and some when we want to select multiple rows. In such cases, the multiSelect param will be most useful. It is a true or false value
