@@ -11,14 +11,21 @@ By default, the tables and forms generated will look plain. So you can use your 
 
 #### Example Call
 
-Here is an example of a call
+Here is an example of a call - In the simplest form.
+
+Create an empty div with id = myGrid.
+
+    var label = {"name":"Name", "age":"Age", "dept":"Department"};
+
+    var data = [
+                {"name":"Nikhil", "age":"24", "dept":"EC", "lastname": "Baliga"}, 
+                {"name":"Amod", "age":"29", "dept":"EC", "lastname": "Pandey"},
+                {"name":"Niyaz", "age":"27", "dept":"CS", "lastname": "PK"}
+                ];
 
      renderGrid ({"id": "myGrid",        	// target where grid will be rendered
            "label": label,             		// heading or label in table or form resp
-           "data": data,               		// Data as array of objects or object
-           "element_type": element_type,    // Object with data types for rendering (see above)
-           "qbeEnabled": qbeEnabled,   		// Array with true/false for Query By Example
-           "multiSelect": false,       		// Flag indicating if multiple rows or single can be selected
+           "data": data,               		// Data as array of objects or object - If not provided, empty table is created
            "container": "table"        		// container = table/form - Control to be rendered
      });
 
@@ -30,19 +37,19 @@ All you need to do from your side is create an empty Div with an Id, which is pa
 Array while rendering table/chart should be provided as a JSON. An example is provided here
 (Not providing Data field will result in empty data automatically)
 
-*data format 1*
+*Data format 1*
 
     var data = [
     			{"name":"Nikhil", "age":"24", "dept":"EC", "lastname": "Baliga"}, 
     			{"name":"Amod", "age":"29", "dept":"EC", "lastname": "Pandey"},
-    			{"name":"Balu", "age":"32", "dept":"ME", "lastname": "S"}
+    			{"name":"Niyaz", "age":"27", "dept":"CS", "lastname": "PK"}
 			    ];
 
 Each element of the JSON is a row, and elements of each of them is a column.
 
 Data - Object while rendering form
 
-*data format 2*
+*Data format 2*
 
 var data = {"name":"Nikhil", "age":"24", "dept":"EC", "lastname": "Baliga"};
 
