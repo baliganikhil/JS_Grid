@@ -154,6 +154,6 @@ Other parameters (optional) are explained against them in the example call below
 
 #### External Dependencies
 * Requires jQuery to work
-* Requires Table Sorter plugin in case you want to use sort. If you are not sorting, no issues
-* Requires jQuery UI for dragging functions - Not needed if not using
+* Requires Table Sorter plugin (jquery.tablesorter.min.js) in case you want to use sort
+* Requires jQuery UI for date field and dragging functions
 * For Charts, Raphael JS is required
