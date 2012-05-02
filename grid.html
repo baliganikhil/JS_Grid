@@ -106,6 +106,17 @@ By keeping the code same as above and just adding "actionButtonPosition":"line" 
 </p>
 
 <p>
+<h3>Custom Functions + Default functionality</h3>
+<p>How about if you want to call a custom function as well as run the default code? All you have to tell is that your custom function is a callback.</p>
+
+<div class="mycode">
+<script src="https://gist.github.com/2579739.js?file=gistfile1.js"></script>
+</div>
+<div id="delete_callback" style="height: 300px"></div>
+
+</p>
+
+<p>
 <h3>Retrieving data from a table - No sweat</h3>
 Normally, we retrieve data from a database and present it to users. The user can make some changes, like add new rows and fill some data, or delete or update an existing row. When the user clicks on save, we want to send only the modified rows back to the database - instead of ALL the rows. This is very useful because we are sending only relevant information
 
@@ -267,6 +278,20 @@ $(document).ready(function() {
 	function custom_delete_function() {
 		$(this).detach();
 	}
+
+	renderGrid({
+    	"id": "delete_callback",
+		"label": label,
+		"element_type": element_type,
+		"container": "table",
+		"deleteVisible": "true",
+		"onDelete": delete_function_callback,
+		"onDeleteIsCallback": true
+	});
+
+    function delete_function_callback() {
+    	alert("This is a custom function which happened along with default code");
+    }
 
 	renderGrid({
     	"id": "table_to_json_demo",
