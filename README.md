@@ -8,6 +8,8 @@ This project is an attempt to allow you to do a lot of things without writing an
 #### Works very well with Twitter Bootstrap CSS
 By default, the tables and forms generated will look plain. So you can use your own CSS styles with them. If you want to save time and plough through quickly, then you can just include Twitter Bootstrap CSS and see the tables transform.
 
+*[See examples of a few configurations with code here for better understanding](http://nikhilbaliga.com/js_grid/grid.html)*
+
 #### Example Call
 
 Here is an example of a call - In the simplest form.
