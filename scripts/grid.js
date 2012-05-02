@@ -1109,8 +1109,6 @@ return false;
 
         obj["element_type"] = element_type;
     }
-
-    console.log(element_type);
 	
 	/* Store blueprint */
 	var keys_of_header = Object.keys(label);
@@ -1370,3 +1368,203 @@ function _is_false(param) {
         return true;
     }
 }
+
+
+/******************************************************
+Table to JSON - Code written by Shashank Shandilya
+******************************************************/
+
+function tableToJson(table,complete_row){
+   if (nullOrEmpty(complete_row)){
+      complete_row = false;
+   }
+   metaData = blueprint_grid[table].element_type;
+   var jsonTableArray = [];
+   var jsonTable = {};
+   var isToBeSend = true;
+   var class_name = '';
+   table = '#'+table+'_grid_table';
+   $.each($(table).find('tr.eachRow'),function(index1,htmlContent){
+   
+      if ( (!nullOrEmpty($(this).find('td:first').find('.asterisk').attr('value')) || complete_row ) && ( $(this).find('td:first').find('.asterisk').attr('value') != 'ID' && $(this).find('td:first').find('.asterisk').attr('value') != 'BD' && $(this).find('td:first').find('.asterisk').attr('value') != 'B') ){
+         //alert ($(this).find('td:first').find('.asterisk').attr('value'));
+         var row = $(this);
+         $.each(metaData,function(index,value){
+            class_name = index;
+            switch (value.type){
+               case 'text':
+                  if ( (nullOrEmpty($(row).find('.'+class_name).val()) && typeof value.source != "undefined") ){
+                        jsonTable[class_name] = value.source;
+                  }else{
+                     if ($(row).find('td:first').find('.asterisk').attr('value') != 'D') {
+                        if (validateFielde($(row).find('.'+class_name).closest('td'),value,$(row).find('.'+class_name).val())){
+                           isToBeSend = false;
+                        }
+                     }
+                     jsonTable[class_name]=($(row).find('.'+class_name).val());
+                  }
+                  break;
+               case 'textarea':
+                  if ( (nullOrEmpty($(row).find('.'+class_name).val()) && typeof value.source != "undefined") ){
+                        jsonTable[class_name] = value.source;
+                  }else{
+                     if ($(row).find('td:first').find('.asterisk').attr('value') != 'D'){
+                        if (validateFielde($(row).find('.'+class_name).closest('td'),value,$(row).find('.'+class_name).val())){
+                           isToBeSend = false;
+                        }
+                     }
+                     jsonTable[class_name]= ($(row).find('.'+class_name).val());
+                  }
+                  break;
+               case 'date':
+                  if ( (nullOrEmpty($(row).find('.'+class_name).val()) && typeof value.source != "undefined") ){
+                        jsonTable[class_name] = value.source;
+                  }else{
+                     if ($(row).find('td:first').find('.asterisk').attr('value') != 'D'){
+                        if (validateFielde($(row).find('.'+class_name).closest('td'),value,$(row).find('.'+class_name).val())){
+                          isToBeSend = false;
+                        }
+                     }
+                     jsonTable[class_name]= _getDbDateFormat(($(row).find('.'+class_name).val()));
+                  }
+                  break;
+               case 'email':
+                  /*if ($(row).find('td:first').find('.asterisk').attr('value') != 'D'){
+                  }
+                  if ( (nullOrEmpty($(this).find(".cell_grid").text()) && typeof value.source != "undefined") ){
+                        jsonTable[class_name] = value.source;
+                  }else{
+                     jsonTable[class_name]=($(this).find(".cell_grid").text());
+                  }*/
+                  break;
+               case 'number':
+                  if (nullOrEmpty($(this).find(".cell_grid").text()) && typeof value.source != "undefined"){
+                     jsonTable[class_name] = value.source;
+                  }else{
+                     if ($(row).find('td:first').find('.asterisk').attr('value') != 'D'){
+                        if(validateFielde($(row).find('.'+class_name).closest('td'),value,$(row).find('.'+class_name).val())){
+                           isToBeSend = false;
+                        }
+                     }
+                     jsonTable[class_name]=$(row).find('.'+class_name).val();
+                  }
+                  break;
+               case 'readonly':
+                  if ( (nullOrEmpty($(row).find('.'+class_name).text())) && typeof(value.source) != "undefined"){
+                        jsonTable[class_name] = value.source;
+                  }else{
+                     if ($(row).find('td:first').find('.asterisk').attr('value') != 'D'){
+                        if (validateFielde($(row).find('.'+class_name).closest('td'),value,$(row).find('.'+class_name).text())){
+                           isToBeSend = false;
+                        }
+                     }
+                     jsonTable[class_name]=$(row).find('.'+class_name).text();
+                  }
+                  break;
+               case 'select':
+                  if ($(row).find('td:first').find('.asterisk').attr('value') != 'D'){
+                     if (validateFielde($(row).find('.'+class_name).closest('td'),value,$(row).find('.'+class_name+' option:selected').val())){
+                        isToBeSend = false;
+                     }
+                  }
+                  jsonTable[class_name] = $(row).find('.'+class_name+' option:selected').val();
+                  break;
+        case 'fnd_lookup':
+                if ($(row).find('td:first').find('.asterisk').attr('value') != 'D'){
+                     if ( validateFielde ( $(row).find('.'+class_name).closest('td'),value, $(row).find('.'+class_name).data('code') ) ){
+                        isToBeSend = false;
+                     }
+                  }
+                  jsonTable[class_name] = $(row).find('.'+class_name).data('code');
+                  break;
+               case 'link':
+                  break;
+               case 'hidden':
+                  if (class_name == 'status'){
+                     if ($(table).find('td:first').find('.asterisk').attr('value') === 'U' || $(table).find('td:first').find('.asterisk').attr('value') === 'I'){
+                        jsonTable['status'] = 'active';
+                     }else{
+                        jsonTable['status'] = 'inactive';
+                     }
+                  }else{
+                     if ( (nullOrEmpty($(row).find('.'+class_name).val())) && (value.required === "true")){
+                        jsonTable[class_name] = value.source;
+                     }else{
+                        jsonTable[class_name] = $(row).find('.'+class_name).val();
+                     }
+                  }
+                  break;
+               default:
+                  break;
+            }
+         });
+         jsonTableArray.push(jsonTable);
+         jsonTable = {};
+      }
+   });
+   if (isToBeSend === false){
+      return false;
+   }else{
+      return (jsonTableArray);
+   }
+   
+}
+
+function validateFielde(field, metaData,fieldVal){  // fieldVal is required ,
+   $(field).find('.error-span').remove();  // remove error message if any
+    // fetches the value of the field
+   if (metaData.required === "true"){
+      if (fieldVal === "") {
+         $(field).prepend('<span class="label important error-span">*Enter Proper Value</span>');
+         return true;
+      }else if (!checkRule(metaData, fieldVal)) {
+         $(field).prepend('<span class="label important error-span">*Enter Proper Value</span>');
+         return true;
+      }
+   }else{
+      if (!checkRule(metaData, fieldVal)) {
+         $(field).prepend('<span class="label important error-span">*Enter Proper Value</span>');
+         return true;
+      }
+   }
+   return false;
+}
+
+function checkRule(rule, value) {
+    switch (rule.type) {
+    case 'date':
+      return true;
+    case 'textarea':
+      return true;
+    case 'number':
+        if (!isNumber(value)) {
+            return false;
+        }
+        break;
+    case 'email':
+        if (!looksLikeEmail(value)) {
+            return false;
+        }
+        break;
+    case 'creditcard':
+        if (!isCreditCard(value)) {
+            return false;
+        }
+        break;
+    case 'text':
+         return true;
+    case 'title':
+        if (value < 1) {
+            return false;
+        }
+        break;
+    case 'comboid':
+        if (value < 1) {
+            return false;
+        }
+        break;
+    }
+    return true;
+}
+
+/*********  End of Code - table to json - By Shashank Shandilya ************************/
