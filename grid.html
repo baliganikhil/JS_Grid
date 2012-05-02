@@ -1,29 +1,10 @@
 <html>
 <head>
-	<!-- <link rel="stylesheet" href="./css/demo.css"media="screen">
-    <link rel="stylesheet" href="./css/demo-print.css"media="print">
-	<link type="text/css" rel="stylesheet" href="./bootstrap/css/bootstrap.css" /> 
 
-	
-	<script type="text/javascript" src="./scripts/jquery-ui-1.8.19.custom.min.js"></script>
-	<script src="./scripts/raphael.js"></script>
-	<script type="text/javascript" src="./scripts/g.raphael-min.js"></script>
-	<script type="text/javascript" src="./scripts/g.bar-min.js"></script>
-	<script type="text/javascript" src="./scripts/jquery.tablesorter.min.js"></script>
-
-	<link rel="stylesheet" href="./css/jquery-ui.css" type="text/css" media="all" />
-	-->
-
-	<link type="text/css" rel="stylesheet" href="/home/nikhilbaliga/src/hq/common/css/bootstrap/css/bootstrap.css" /> 
+	<link type="text/css" rel="stylesheet" href="./css/bootstrap.css" /> 
 
 	<style type="text/css">
 	.mycode {
-		/*width: 100%;
-		height: 300px;
-		border: solid 1px silver;
-		background: silver;
-		font-family: courier;
-		overflow: auto;*/
 		font-size: 11px;
 	}
 	</style>
@@ -31,78 +12,23 @@
 	<script src="./scripts/jquery-1.7.1.min.js"></script>
 	<script src="./scripts/grid.js"></script>
 
-	<script type="text/javascript">
-
-	$(document).ready(function() {
-
-	  var data = [
-	  			{"name":"Nikhil", "age":"24", "dept":"EC", "lastname": "Baliga"}, 
-	  			{"name":"Amod", "age":"29", "dept":"EC", "lastname": "Pandey"},
-	  			{"name":"Balu", "age":"32", "dept":"ME", "lastname": "S"}
-	  			];
-	 
-	  var label = {"name":"Name", "age":"Age", "dept":"Department"};
-	 
-	  // element_type is a REQUIRED field. Used for type of rendering, and source is needed for 'select'
-	  var element_type = {
-	  		"name": {"type":"readonly"},
-	  		"age":  {"type":"readonly", "required": "true", "summable": "false"},
-	  		"dept": {"type":"select", "source":{"EC":"Electronics", "CS":"Comp Sci", "ME":"Mech"}}
-	  		};
-	  
-	   var qbeEnabled = [true, false, false];
-
-	renderGrid ({"id": "myGrid", 						// target where grid will be rendered
-				  "label": label,							// heading or label in table or form resp
-				  "data": data,								// Data as array of objects or object
-				  "element_type": element_type,						// Object with data types for rendering (see above)
-				  "qbeEnabled": qbeEnabled,					// Array with true/false for Query By Example
-	//			  "editNewReadOnly": editNewReadOnly,		// Unsupported currently
-				  "multiSelect": false,						// Flag indicating if multiple rows or single can be selected
-				  "container": "table",						// container = table/form - Control to be rendered
-				  "chart_type": "pie",
-	//			  "actionButtonPosition":"line",			// If this line is included, Add/Delete buttons appear at end of each table row
-				  "onDelete": custom_function_delete,		// Function to be called on pressing of delete button
-				  "onDeleteIsCallback": true,
-	//			  "onSave": custom_function_save,			// Function to be called on pressing of save button
-	//			  "onAdd": custom_function_add,				// Function to be called on pressing of add button
-	//			  "onSearch": custom_function_add,			// Function to be called on pressing of search button
-	//			  "addVisible": "true",					// Indicates whether Add button should be visible
-				  // "deleteVisible": "true",					// Indicates whether Delete button should be visible
-				  // "saveVisible": "false",					// Indicates whether Save button should be visible
-				  // "searchVisible": "false",					// Indicates whether Search button should be visible
-				  // "exportVisible": "false",					// Indicates whether Export button should be visible
-	//			  "sort": true,								// Indicates whether Sorting feature is enabled
-	//			  "draggableRows": true,					// Indicates whether Rows can be moved up and down by dragging
-	//			  "draggableCols": true,					// Indicates whether Columns can be repositioned by dragging
-	//			  "action": action_value,					// Action of Form - POST, GET, PUT etc.
-	//			  "method": method_name						// Method called on submitting form
-
-	});
-});
-
-function custom_function_delete() {
-	alert("Deleted!");
-
-}
-
-	</script>
 </head>
 <body>
+	<div class="content">
 <h1>JS_Grid</h1>
 <p> Welcome to the JS_Grid tutorial. This page has a few examples which will help you get familiarised with the various features available.</p>
 
+<p>I have used Twitter bootstrap CSS along with this since JS_Grid goes very well with it. It is not mandatory and you can use your own CSS as well. If you like the project and would like to contribute, visit the <a href="https://github.com/baliganikhil/JS_Grid">Github page here</a>.</p>
+
+<!-- Begin basic table -->
+
+<br><h3>Basic table</h3>
 <p>In its most basic form, we see a simple table shown. One of the features that comes along with this table is the ability to hide columns. Click on the minus sign to hide a column.</p>
 
 <p>We will slowly add more features as we proceed. For now, Copy-Paste the following code into your file.</p>
-
-<!-- Begin basic table -->
 <div class="mycode">
 <script src="https://gist.github.com/2577891.js?file=gistfile1.html"></script>
 </div>
-
-
-<br><b>Basic table</b><br>
 <div id="basic_grid_1" style="height:200px;"></div>
 <hr>
 <!-- End basic table -->
@@ -415,5 +341,7 @@ $(document).ready(function() {
 
 });
 </script>
+
+</div>
 </body>
 </html>
