@@ -213,9 +213,14 @@ And in this next example, you can see that we can have multi-value graphs with t
 <script src="https://gist.github.com/2579264.js?file=gistfile1.html"></script>
 </div>
 <div id="multi_bar_chart"></div>
-
 </p>
 
+<p>
+	<h3>Regular Forms - to input data</h3>
+	<div class="mycode">
+		<script src="https://gist.github.com/2579515.js?file=gistfile1.js"></script>
+	</div>
+	<div id="form_input"></div>
 </p>
 
 <script type="text/javascript" src="https://raw.github.com/DmitryBaranovskiy/raphael/master/raphael-min.js"></script>
@@ -384,6 +389,26 @@ $(document).ready(function() {
 		"data": data,
 		"container": "chart",
 		"chart_type": "bar"
+	});
+
+	var label = {"name": "First Name", "lastname": "Last Name", "age": "Age", "dept": "Department"};
+
+	var element_type = {
+		"name": {"type":"text"},
+		"lastname": {"type":"text"},
+		"age":  {"type":"text", "required": "true", "summable": "false"},
+		"dept": {"type":"select", "source":{"EC":"Electronics", "CS":"Comp Sci", "ME":"Mech"}}
+		};
+
+	qbeEnabled = ["true", "true", "true"];
+
+    renderGrid({
+    	"id": "form_input",
+		"label": label,
+		"element_type": element_type,
+		"container": "form",
+		"saveVisible": "true",
+		"searchVisible": "true"
 	});
 
 	
