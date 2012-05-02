@@ -1,10 +1,9 @@
 #JS_Grid
+##Rapidly create fully featured forms, tables, form-table controls, and charts.
 
-There are several times when we represent data in a table. And we have to perform loops and create table rows. However that is just representing data in a basic format. There are several instances when we want to filter table data, or sort them, etc. 
+There are several times when we represent data in a table. However representing data in a table is just a basic representation. There are several instances when we want to filter table data, or sort them, etc. There are also times when we want to add new rows, modify existing ones and delete some.
 
-Since this is a repetitive task I thought of writing some code. I wrote this very quickly, so it may not be very well written, but gets the work done nicely very often. I am still working on this, but read on to see what all can be done at this point of time
-
-GRID - Can be used to rapidly deploy forms, tables, form-table controls, and now charts.
+This project is an attempt to allow you to do a lot of things without writing any code - all you need to have is the data to be passed. Just call this function and you are done. It is highly configurable and allows you to control a lot of things. Read on to see how it works.
 
 #### Works very well with Twitter Bootstrap CSS
 By default, the tables and forms generated will look plain. So you can use your own CSS styles with them. If you want to save time and plough through quickly, then you can just include Twitter Bootstrap CSS and see the tables transform.
