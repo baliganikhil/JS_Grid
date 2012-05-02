@@ -1,7 +1,7 @@
 #JS_Grid
-##Rapidly create fully featured forms, tables, form-table controls, and charts.
+####Rapidly create fully featured forms, tables, form-table controls, and charts.
 
-There are several times when we represent data in a table. However representing data in a table is just a basic representation. There are several instances when we want to filter table data, or sort them, etc. There are also times when we want to add new rows, modify existing ones and delete some.
+Many times when we represent data in a table. However representing data in a table is just a basic representation. There are several instances when we want to filter table data, or sort them, etc. There are also times when we want to add new rows, modify existing ones and delete some.
 
 This project is an attempt to allow you to do a lot of things without writing any code - all you need to have is the data to be passed. Just call this function and you are done. It is highly configurable and allows you to control a lot of things. Read on to see how it works.
 
