@@ -1,0 +1,35 @@
+
+<html>
+<head>
+<script src="./scripts/jquery-1.7.1.min.js"></script>
+<script src="./scripts/grid.js"></script>
+<link rel="stylesheet" type="text/css" href="bootstrap.css">
+
+<script>
+$(document).ready(function() {
+	var label = {"name": "First Name", "lastname": "Last Name", "age": "Age", "dept": "Department"};
+
+	var data = [{"name": "Nikhil", "age": "24", "dept": "EC", "lastname": "Baliga"}, 
+                {"name": "Amod", "age": "29", "dept": "EC", "lastname": "Pandey"}, 
+                {"name": "Niyaz", "age": "27", "dept": "CS", "lastname": "PK"},
+                {"name": "Mayur", "age": "27", "dept": "CS", "lastname": "Kataria"},
+                {"name": "Shashank", "age": "23", "dept": "CS", "lastname": "Shandilya"}];
+
+
+    renderGrid({
+    	"id": "myGrid",
+		"label": label,
+		"data": data,
+		"container": "table"
+	});
+
+
+});
+</script>
+</head>
+<body>
+
+<div id="myGrid" style="height: 500px;"></div>
+
+</body>
+</html>

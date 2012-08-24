@@ -153,6 +153,14 @@ And in this next example, you can see that we can have multi-value graphs with t
 </p>
 
 <p>
+Here we can see some line graph in action.
+<div class="mycode">
+<script src=""></script>
+</div>
+<div id="multi_line_chart"></div>
+</p>
+
+<p>
 	<h3>Regular Forms - to input data</h3>
 	<div class="mycode">
 		<script src="https://gist.github.com/2579515.js?file=gistfile1.js"></script>
@@ -164,6 +172,7 @@ And in this next example, you can see that we can have multi-value graphs with t
 <script type="text/javascript" src="https://raw.github.com/DmitryBaranovskiy/g.raphael/master/min/g.raphael-min.js"></script>
 <script type="text/javascript" src="https://raw.github.com/DmitryBaranovskiy/g.raphael/master/min/g.pie-min.js"></script>
 <script type="text/javascript" src="https://raw.github.com/DmitryBaranovskiy/g.raphael/master/min/g.bar-min.js"></script>
+<script type="text/javascript" src="http://github.com/DmitryBaranovskiy/g.raphael/blob/master/min/g.line-min.js?raw=true"></script>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -328,20 +337,6 @@ $(document).ready(function() {
 		"chart_type": "bar"
 	});
 
-	var label = {"name": "Name", "math": "Math", "science": "Science", "english": "English"};
-
-	var data = [{"name": "Nikhil", "math": "45", "science": "82", "english": "92"}, 
-                {"name": "Amod", "math": "72", "science": "29", "english": "87"}, 
-                {"name": "Balu", "math": "68", "science": "92", "english": "23"}];
-
-    renderGrid({
-    	"id": "multi_bar_chart",
-		"label": label,
-		"data": data,
-		"container": "chart",
-		"chart_type": "bar"
-	});
-
 	var label = {"name": "First Name", "lastname": "Last Name", "age": "Age", "dept": "Department"};
 
 	var element_type = {
@@ -360,6 +355,20 @@ $(document).ready(function() {
 		"container": "form",
 		"saveVisible": "true",
 		"searchVisible": "true"
+	});
+
+	label = {"time": "Time", "ipod": "iPod", "android": "Android", "windows": "Windows"};
+
+	data = [{"time": "0", "ipod": "45", "android": "82", "windows": "92"}, 
+                {"time": "10", "ipod": "72", "android": "29", "windows": "87"}, 
+                {"time": "20", "ipod": "68", "android": "92", "windows": "23"}];
+
+    renderGrid({
+    	"id": "multi_line_chart",
+		"label": label,
+		"data": data,
+		"container": "chart",
+		"chart_type": "line"
 	});
 
 	

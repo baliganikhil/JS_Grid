@@ -970,7 +970,7 @@ init_grid_chart = function(obj) {
 	chart_type = obj["chart_type"];
 
 	if (nullOrEmpty(chart_type)) {
-		alert("Chart Type parameter not passed (chart_type => bar/pie)");
+		alert("Chart Type parameter not passed (chart_type => bar/pie/line)");
 		return false;
 	}
 
@@ -982,6 +982,7 @@ init_grid_chart = function(obj) {
 	var key_names = Object.keys(label);
     var values = [], labels = [];
 
+    // Pie Chart
 	if (chart_type == "pie") {
 		$(data).each(function (key, value) {
 			labels.push(value[key_names[0]]);
@@ -1011,6 +1012,7 @@ init_grid_chart = function(obj) {
 		});
 	}
 
+    // Bar Chart
 	if (chart_type == "bar") {
 		var key_no = key_names.length - 1;
 		if (key_no < 0) {
@@ -1059,6 +1061,32 @@ init_grid_chart = function(obj) {
 
     }
 
+    // Line Chart
+    if (chart_type == "line") {
+        var x_axis_points = [];
+        var x_axis_key = key_names[0];
+
+        // See how many y value columns are there
+        // Create those many columns inside values - by create columns, I mean arrays
+        var y_col_count = key_names.length - 1;
+        for (var i = 0; i < y_col_count; i++) {
+            values.push([]);
+        }
+
+        $(data).each(function (key, value) {
+            x_axis_points.push(value[x_axis_key]);
+
+            for (var j = 0; j < y_col_count; j++) {
+                values[j].push(value[key_names[j + 1]]);
+            }
+        });
+
+        var r = Raphael(target);
+
+        r.linechart(330, 10, 300, 220, x_axis_points, values, { shade: true });
+
+    }
+
 };
 
 
@@ -1093,11 +1121,6 @@ function renderGrid(obj) {
 		alert("JS_Grid: Label has not been passed. Param 'label' missing");
 		return false;
 	}
-	
-/*if (nullOrEmpty(element_type) && container != 'chart') {
-alert("JS_Grid: Element Type has not been passed. Param 'element_type' missing");
-return false;
-}*/
 
     if (nullOrEmpty(element_type)) {
         var label_keys = Object.keys(label);
