@@ -1083,7 +1083,17 @@ init_grid_chart = function(obj) {
 
         var r = Raphael(target);
 
-        r.linechart(330, 10, 300, 220, x_axis_points, values, { shade: true });
+        //r.linechart(0, 10, 300, 220, x_axis_points, values, { shade: true });
+
+        var lines = r.linechart(20, 10, 300, 220, [x_axis_points], values, { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true }).hoverColumn(function () {
+            this.tags = r.set();
+
+            for (var i = 0, ii = this.y.length; i < ii; i++) {
+                this.tags.push(r.tag(this.x, this.y[i], this.values[i], 160, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
+            }
+        }, function () {
+            this.tags && this.tags.remove();
+        });
 
     }
 
