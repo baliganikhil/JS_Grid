@@ -103,7 +103,7 @@ There are some instances when we want to select a single row only, and some when
 JS_Grid allows you to render 3 controls at this point of time - Table, Form and Chart. Thus, the manner in which the data will be represented is dependent on this. If you have JSON data in the form of an array (See data format 1 above) then thw following holds true
 * If Container is Table, data is presented as a table
 * If Container is Form, data is represented in a multi data form, where at one time, one record is shown with navigation buttons to inspect each record
-* If Container is Chart, data is represented as Pie or Bar charts, depending on Chart Type parameter (charttype should be bar or pie)
+* If Container is Chart, data is represented as Pie, Line or Bar charts, depending on Chart Type parameter (charttype should be bar, line or pie)
 
 ####Action Button Position
 actionButtonPosition parameter allows you to specify where you want the add or remove row buttons to be present. If you want these buttons to be present at the top of the table, then don't pass this parameter. If you specify this parameter as line, then the buttons will appear at the end of each row. Each row will have a minus sign (To remove the row) and Plus will appear for the last row (To add a row.
@@ -133,7 +133,7 @@ Other parameters (optional) are explained against them in the example call below
 		"element_type": element_type,			// Object with data types for rendering (see above)
 		"qbeEnabled": qbeEnabled,				// Array with true/false for Query By Example
 		"multiSelect": false,					// Flag indicating if multiple rows or single can be selected
-		"container": "table",					// container = table/form - Control to be rendered
+		"container": "table",					// container = table/form/chart - Control to be rendered
 		"actionButtonPosition":"line",			// If this line is included, Add/Delete buttons appear at end of each table row
 		"onDelete": custom_function_delete,		// Function to be called on pressing of delete button
 		"onDeleteIsCallback": true,				// Should perform default action as well as custom function
