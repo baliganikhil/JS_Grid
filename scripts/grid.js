@@ -1091,6 +1091,7 @@ init_grid_chart = function(obj) {
         //r.linechart(0, 10, 300, 220, x_axis_points, values, { shade: true });
         var chart_pos = [20, 10];
         var chart_size = [300, 220];
+        var chart_colours = [];
         if (!nullOrEmpty(props)) {
             if (!nullOrEmpty(props["chart_pos"])) {
                 chart_pos = props["chart_pos"];
@@ -1099,9 +1100,29 @@ init_grid_chart = function(obj) {
             if (!nullOrEmpty(props["chart_size"])) {
                 chart_size = props["chart_size"];
             }
+
+            // If no chart colours have been provided, generate a set
+            if (nullOrEmpty(props["chart_colours"])) {
+                var primary_colours = [0xFF0000, 0x00FF00, 0x0000FF];
+
+                for (var k = 1; k < key_names.length; k++) {
+                    var cur_hex = (primary_colours[k % 3]).toString(16);
+                    var zero_len = 6 - cur_hex.length;
+                    for (l = 0; l < zero_len; l++) {
+                        cur_hex = "0" + cur_hex;
+                    }
+
+                    chart_colours.push("#" + cur_hex);
+                    primary_colours[k % 3] += 0x000033;
+                }
+                console.log(chart_colours);
+            } else {
+                chart_colours = props["chart_colours"];
+            }
+
         }
 
-        var lines = r.linechart(chart_pos[0], chart_pos[1], chart_size[0], chart_size[1], [x_axis_points], values, { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true }).hoverColumn(function () {
+        var lines = r.linechart(chart_pos[0], chart_pos[1], chart_size[0], chart_size[1], [x_axis_points], values, { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true, colors: chart_colours }).hoverColumn(function () {
             this.tags = r.set();
 
             for (var i = 0, ii = this.y.length; i < ii; i++) {
