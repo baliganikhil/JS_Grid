@@ -1086,7 +1086,11 @@ init_grid_chart = function(obj) {
             }
         });
 
-        var r = Raphael(target);
+        var div_actual_graph = "<div class='div_actual_graph' id='" + target + "_actual_graph'></div>";
+        var div_graph_btns = "<div class='div_graph_btns' id='" + target + "_graph_btns'></div>";
+        $('#' + target).html(div_actual_graph + div_graph_btns);
+
+        var r = Raphael(target + "_actual_graph");
 
         //r.linechart(0, 10, 300, 220, x_axis_points, values, { shade: true });
         var chart_pos = [20, 10];
@@ -1100,27 +1104,64 @@ init_grid_chart = function(obj) {
             if (!nullOrEmpty(props["chart_size"])) {
                 chart_size = props["chart_size"];
             }
-
-            // If no chart colours have been provided, generate a set
-            if (nullOrEmpty(props["chart_colours"])) {
-                var primary_colours = [0xFF0000, 0x00FF00, 0x0000FF];
-
-                for (var k = 1; k < key_names.length; k++) {
-                    var cur_hex = (primary_colours[k % 3]).toString(16);
-                    var zero_len = 6 - cur_hex.length;
-                    for (l = 0; l < zero_len; l++) {
-                        cur_hex = "0" + cur_hex;
-                    }
-
-                    chart_colours.push("#" + cur_hex);
-                    primary_colours[k % 3] += 0x000033;
-                }
-                console.log(chart_colours);
-            } else {
-                chart_colours = props["chart_colours"];
-            }
-
         }
+
+        // If no chart colours have been provided, generate a set
+        if (nullOrEmpty(props["chart_colours"])) {
+            var primary_colours = [0xFF0000, 0x00FF00, 0x0000FF];
+
+            for (var k = 1; k < key_names.length; k++) {
+                var cur_hex = (primary_colours[k % 3]).toString(16);
+                var zero_len = 6 - cur_hex.length;
+                for (l = 0; l < zero_len; l++) {
+                    cur_hex = "0" + cur_hex;
+                }
+
+                chart_colours.push("#" + cur_hex);
+                primary_colours[k % 3] += 0x000033;
+            }
+            
+        } else {
+            chart_colours = props["chart_colours"];
+        }
+
+        // Generate buttons to show/hide charts
+        for (var m = 1; m < key_names.length; m++) {
+            $('#' + target + "_graph_btns").append('<button class="btn coloured_button" style="background: ' + chart_colours[m - 1] + '" data-values_number="' + (m - 1) + '"></button>');
+        }
+
+        $('#' + target + "_graph_btns").find('.coloured_button').live('click', function() {
+            // Clear full graph
+            r.clear();
+
+            // Redraw graph
+            r.linechart(chart_pos[0], chart_pos[1], chart_size[0], chart_size[1], [x_axis_points], values[$(this).data("values_number")], { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true, colors: [chart_colours[$(this).data("values_number")]] }).hoverColumn(function () {
+                this.tags = r.set();
+
+                for (var i = 0, ii = this.y.length; i < ii; i++) {
+                    this.tags.push(r.tag(this.x, this.y[i], this.values[i], 160, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
+                }
+                }, function () {
+                    this.tags && this.tags.remove();
+                });
+        });
+
+        $('#' + target + "_graph_btns").append('<button class="btn show_all_button">Show all</button>');
+        $('#' + target + "_graph_btns").find('.show_all_button').live('click', function() {
+            // Clear full graph
+            r.clear();
+
+            // Redraw graph
+            var lines = r.linechart(chart_pos[0], chart_pos[1], chart_size[0], chart_size[1], [x_axis_points], values, { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true, colors: chart_colours }).hoverColumn(function () {
+                this.tags = r.set();
+
+                for (var i = 0, ii = this.y.length; i < ii; i++) {
+                    this.tags.push(r.tag(this.x, this.y[i], this.values[i], 160, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
+                }
+            }, function () {
+                this.tags && this.tags.remove();
+            });
+        });
 
         var lines = r.linechart(chart_pos[0], chart_pos[1], chart_size[0], chart_size[1], [x_axis_points], values, { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true, colors: chart_colours }).hoverColumn(function () {
             this.tags = r.set();
