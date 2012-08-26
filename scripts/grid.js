@@ -978,6 +978,7 @@ init_grid_chart = function(obj) {
 	var label = obj["label"];
 	var element_type = obj["element_type"];
 	var data = obj["data"];
+    var props = obj["chart_props"];
 
 	var key_names = Object.keys(label);
     var values = [], labels = [];
@@ -1084,8 +1085,19 @@ init_grid_chart = function(obj) {
         var r = Raphael(target);
 
         //r.linechart(0, 10, 300, 220, x_axis_points, values, { shade: true });
+        var chart_pos = [20, 10];
+        var chart_size = [300, 220];
+        if (!nullOrEmpty(props)) {
+            if (!nullOrEmpty(props["chart_pos"])) {
+                chart_pos = props["chart_pos"];
+            }
 
-        var lines = r.linechart(20, 10, 300, 220, [x_axis_points], values, { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true }).hoverColumn(function () {
+            if (!nullOrEmpty(props["chart_size"])) {
+                chart_size = props["chart_size"];
+            }
+        }
+
+        var lines = r.linechart(chart_pos[0], chart_pos[1], chart_size[0], chart_size[1], [x_axis_points], values, { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true }).hoverColumn(function () {
             this.tags = r.set();
 
             for (var i = 0, ii = this.y.length; i < ii; i++) {
