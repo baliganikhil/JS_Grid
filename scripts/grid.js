@@ -1,6 +1,7 @@
 /******
 
 #JS_Grid
+####Rapidly create fully featured forms, tables, form-table controls and charts.
 
 There are several times when we represent data in a table. And we have to perform loops and create table rows. However that is just representing data in a basic format. There are several instances when we want to filter table data, or sort them, etc. 
 
@@ -149,7 +150,10 @@ Other parameters (optional) are explained against them in the example call below
 		"draggableRows": true,					// Indicates whether Rows can be moved up and down by dragging
 		"draggableCols": true,					// Indicates whether Columns can be repositioned by dragging
 		"action": action_value,					// Action of Form - POST, GET, PUT etc.
-		"method": method_name					// Method called on submitting form
+		"method": method_name,					// Method called on submitting form
+        "chart_type": "line",                   // Chart type - can be among line, pie and bar
+        "chart_props": {"chart_size": [300, 220], // Chart properties: Size [width, height] Position [x, y]
+                        "chart_pos": [20, 10]}
 	});
 
 

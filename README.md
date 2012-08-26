@@ -1,5 +1,5 @@
 #JS_Grid
-####Rapidly create fully featured forms, tables, form-table controls, and charts.
+####Rapidly create fully featured forms, tables, form-table controls and charts.
 
 Many times when we represent data in a table. However representing data in a table is just a basic representation. There are several instances when we want to filter table data, or sort them, etc. There are also times when we want to add new rows, modify existing ones and delete some.
 
@@ -141,31 +141,33 @@ This works with the help of the Table Sorter plugin. If you pass this as true, t
 Other parameters (optional) are explained against them in the example call below
 
 
-     renderGrid ({"id": "myGrid", 						// target where grid will be rendered
-     			  "label": label,							// heading or label in table or form resp
-     			  "data": data,								// Data as array of objects or object
-     			  "element_type": type,						// Object with data types for rendering (see above)
-     			  "qbeEnabled": qbeEnabled,					// Array with true/false for Query By Example
-     			  "multiSelect": false,						// Flag indicating if multiple rows or single can be selected
-     			  "container": "table",						// container = table/form - Control to be rendered
-     			  "actionButtonPosition":"line",			// If this line is included, Add/Delete buttons appear at end of each table row
-     			  "onDelete": custom_function_delete,		// Function to be called on pressing of delete button
-     			  "onDeleteIsCallback": true,				// Should perform default action as well as custom function
-     			  "onSave": custom_function_save,			// Function to be called on pressing of save button
-     			  "onAdd": custom_function_add,				// Function to be called on pressing of add button
-     			  "onSearch": custom_function_add,			// Function to be called on pressing of search button
-     			  "addVisible": "false",					// Indicates whether Add button should be visible
-     			  "deleteVisible": "false",					// Indicates whether Delete button should be visible
-     			  "saveVisible": "false",					// Indicates whether Save button should be visible
-     			  "searchVisible": "false",					// Indicates whether Search button should be visible
-     			  "exportVisible": "false",					// Indicates whether Export button should be visible
-     			  "sort": true,								// Indicates whether Sorting feature is enabled
-     			  "draggableRows": true,					// Indicates whether Rows can be moved up and down by dragging
-     			  "draggableCols": true,					// Indicates whether Columns can be repositioned by dragging
-     			  "action": action_value,					// Action of Form - POST, GET, PUT etc.
-     			  "method": method_name						// Method called on submitting form
-     
-     });
+    renderGrid ({"id": "myGrid",            // target where grid will be rendered
+        "label": label,                         // heading or label in table or form resp
+        "data": data,                           // Data as array of objects or object
+        "element_type": element_type,           // Object with data types for rendering (see above)
+        "qbeEnabled": qbeEnabled,               // Array with true/false for Query By Example
+        "multiSelect": false,                   // Flag indicating if multiple rows or single can be selected
+        "container": "table",                   // container = table/form/chart - Control to be rendered
+        "actionButtonPosition":"line",          // If this line is included, Add/Delete buttons appear at end of each table row
+        "onDelete": custom_function_delete,     // Function to be called on pressing of delete button
+        "onDeleteIsCallback": true,             // Should perform default action as well as custom function
+        "onSave": custom_function_save,         // Function to be called on pressing of save button
+        "onAdd": custom_function_add,           // Function to be called on pressing of add button
+        "onSearch": custom_function_add,        // Function to be called on pressing of search button
+        "addVisible": "false",                  // Indicates whether Add button should be visible
+        "deleteVisible": "false",               // Indicates whether Delete button should be visible
+        "saveVisible": "false",                 // Indicates whether Save button should be visible
+        "searchVisible": "false",               // Indicates whether Search button should be visible
+        "exportVisible": "false",               // Indicates whether Export button should be visible
+        "sort": true,                           // Indicates whether Sorting feature is enabled
+        "draggableRows": true,                  // Indicates whether Rows can be moved up and down by dragging
+        "draggableCols": true,                  // Indicates whether Columns can be repositioned by dragging
+        "action": action_value,                 // Action of Form - POST, GET, PUT etc.
+        "method": method_name,                  // Method called on submitting form
+        "chart_type": "line",                   // Chart type - can be among line, pie and bar
+        "chart_props": {"chart_size": [300, 220], // Chart properties: Size [width, height] Position [x, y]
+                        "chart_pos": [20, 10]}
+    });
 
 
 #### External Dependencies
