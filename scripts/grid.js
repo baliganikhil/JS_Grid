@@ -1130,12 +1130,29 @@ init_grid_chart = function(obj) {
             $('#' + target + "_graph_btns").append(' <button class="btn coloured_button" style="background: ' + chart_colours[m - 1] + '; color: #FFF" data-values_number="' + (m - 1) + '">' + label[key_names[m]] + '</button>');
         }
 
+        // When one of the coloured graph buttons is clicked
         $('#' + target + "_graph_btns").find('.coloured_button').live('click', function() {
+            // Toggle active colour button class
+            if ($(this).hasClass('active_colour_button')) {
+                $(this).removeClass('active_colour_button');
+                $(this).css('border', 'none');
+            } else {
+                $(this).addClass('active_colour_button');
+                $(this).css('border', 'solid 2px black');
+            }
+
             // Clear full graph
             r.clear();
 
+            var y_values = [];
+            var y_colours = [];
+            $('#' + target + "_graph_btns .active_colour_button").each(function() {
+                y_values.push(values[$(this).data("values_number")]);
+                y_colours.push(chart_colours[$(this).data("values_number")]);
+            });
+
             // Redraw graph
-            r.linechart(chart_pos[0], chart_pos[1], chart_size[0], chart_size[1], [x_axis_points], values[$(this).data("values_number")], { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true, colors: [chart_colours[$(this).data("values_number")]] }).hoverColumn(function () {
+            r.linechart(chart_pos[0], chart_pos[1], chart_size[0], chart_size[1], [x_axis_points], y_values, { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true, colors: y_colours }).hoverColumn(function () {
                 this.tags = r.set();
 
                 for (var i = 0, ii = this.y.length; i < ii; i++) {
@@ -1145,10 +1162,10 @@ init_grid_chart = function(obj) {
                     this.tags && this.tags.remove();
                 });
 
-            $('.coloured_button').css('border', 'none');
-            $(this).css('border', 'solid 2px black');
+            
         });
 
+        // When the show all button is clicked
         $('#' + target + "_graph_btns").append(' <button class="btn show_all_button">Show all</button>');
         $('#' + target + "_graph_btns").find('.show_all_button').live('click', function() {
             // Clear full graph
@@ -1166,6 +1183,7 @@ init_grid_chart = function(obj) {
             });
 
             $('.coloured_button').css('border', 'none');
+            $('.active_colour_button').removeClass('active_colour_button');
             $(this).css('border', 'solid 2px black');
         });
 
