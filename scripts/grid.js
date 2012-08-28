@@ -1127,7 +1127,7 @@ init_grid_chart = function(obj) {
 
         // Generate buttons to show/hide charts
         for (var m = 1; m < key_names.length; m++) {
-            $('#' + target + "_graph_btns").append('<button class="btn coloured_button" style="background: ' + chart_colours[m - 1] + '" data-values_number="' + (m - 1) + '"></button>');
+            $('#' + target + "_graph_btns").append('<button class="btn coloured_button" style="background: ' + chart_colours[m - 1] + '; color: #FFF" data-values_number="' + (m - 1) + '">' + label[key_names[m]] + '</button>');
         }
 
         $('#' + target + "_graph_btns").find('.coloured_button').live('click', function() {
@@ -1144,6 +1144,9 @@ init_grid_chart = function(obj) {
                 }, function () {
                     this.tags && this.tags.remove();
                 });
+
+            $('.coloured_button').css('border', 'none');
+            $(this).css('border', 'solid 2px black');
         });
 
         $('#' + target + "_graph_btns").append('<button class="btn show_all_button">Show all</button>');
@@ -1161,6 +1164,9 @@ init_grid_chart = function(obj) {
             }, function () {
                 this.tags && this.tags.remove();
             });
+
+            $('.coloured_button').css('border', 'none');
+            $(this).css('border', 'solid 2px black');
         });
 
         var lines = r.linechart(chart_pos[0], chart_pos[1], chart_size[0], chart_size[1], [x_axis_points], values, { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true, colors: chart_colours }).hoverColumn(function () {
