@@ -1127,7 +1127,7 @@ init_grid_chart = function(obj) {
 
         // Generate buttons to show/hide charts
         for (var m = 1; m < key_names.length; m++) {
-            $('#' + target + "_graph_btns").append('<button class="btn coloured_button" style="background: ' + chart_colours[m - 1] + '; color: #FFF" data-values_number="' + (m - 1) + '">' + label[key_names[m]] + '</button>');
+            $('#' + target + "_graph_btns").append(' <button class="btn coloured_button" style="background: ' + chart_colours[m - 1] + '; color: #FFF" data-values_number="' + (m - 1) + '">' + label[key_names[m]] + '</button>');
         }
 
         $('#' + target + "_graph_btns").find('.coloured_button').live('click', function() {
@@ -1149,7 +1149,7 @@ init_grid_chart = function(obj) {
             $(this).css('border', 'solid 2px black');
         });
 
-        $('#' + target + "_graph_btns").append('<button class="btn show_all_button">Show all</button>');
+        $('#' + target + "_graph_btns").append(' <button class="btn show_all_button">Show all</button>');
         $('#' + target + "_graph_btns").find('.show_all_button').live('click', function() {
             // Clear full graph
             r.clear();
