@@ -309,7 +309,9 @@ Other parameters (optional) are explained against them in the example call below
                             if (qbeEnabled[j] === false || qbeEnabled[j] == "false") {
                                 readonly = ' readonly="readonly"';
                             }
-                            qbe += '<th><input type="text" class="qbe ' + colName[j] + '" id="' + colName[j] + '"' + readonly + '></th>';
+                            // Using td instead of th in order to 
+                            // prevent overlap with table sorter plugin
+                            qbe += '<td><input type="text" class="qbe ' + colName[j] + '" id="' + colName[j] + '"' + readonly + '></td>';
                         } else {
                             qbe = '';
                         }
@@ -327,8 +329,12 @@ Other parameters (optional) are explained against them in the example call below
                         hidden_fields_in_this_row += cellValue;
                         hidden_fields_in_blank_row += emptyCellValue;
                     } else {
-                        trow += '<td class="' + colName[j] + '_cell">' + cellValue + '</td>';
-                        empty_row += '<td class="' + colName[j] + '_cell" data-div_id = "' + div_id + '">' + emptyCellValue + '</td>';
+                    	// Get alignment if any
+                    	var curAlign = current_type['align'];
+                    	curAlign = !nullOrEmpty(curAlign) ? ' align="' + curAlign + '"' : '';
+                    	
+                        trow += '<td class="' + colName[j] + '_cell"' + curAlign + '>' + cellValue + '</td>';
+                        empty_row += '<td class="' + colName[j] + '_cell" data-div_id = "' + div_id + '"' + curAlign + '>' + emptyCellValue + '</td>';
                     }
 
                 }
