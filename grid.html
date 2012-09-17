@@ -10,6 +10,7 @@
 	</style>
 	
 	<script src="./scripts/jquery-1.7.1.min.js"></script>
+	<script src="./scripts/jquery.tablesorter.min.js"></script>
 	<script src="./scripts/grid.js"></script>
 
 </head>
@@ -129,6 +130,19 @@ Normally, we retrieve data from a database and present it to users. The user can
 <script src="https://gist.github.com/2579409.js?file=gistfile1.js"></script>
 </div>
 <div id="table_to_json_demo" style="height: 300px"></div>
+
+<p>
+<h3>Sorting, Summing and Alignment</h3>
+<p>Using the <a href='http://tablesorter.com/docs/'>Table Sorter plugin</a>, sorting can be as easy adding just one simple key - sort as true. Make sure to include the Table Sorter plugin before the JS_Grid is included (But after jQuery is included) in order to get the dependency order right</p>
+<p>Summing is a very useful feature that adds up numbers in a column and shows the sum at the bottom.</p>
+<p>It might be useful to align certain columns, like numerical ones, to the right. All these can easily be achieved using JS_Grid with simple configuration.</p>
+
+<div class="mycode">
+<script src="https://gist.github.com/3738966.js?file=gistfile1.js"></script>
+</div>
+<div id="sort_align_demo" style="height: 300px"></div>
+
+</p>
 
 <p>
 <h3>Say hello to Charts</h3>
@@ -311,6 +325,21 @@ $(document).ready(function() {
 		"container": "table",
 		"saveVisible": "true",
 		"onSave": custom_save_function
+	});
+	
+	element_type = {
+	  		"name": {"type":"readonly"},
+	  		"age":  {"type":"readonly", "align": "right", "summable": "true"},
+	  		"dept": {"type":"select", "source":{"EC":"Electronics", "CS":"Comp Sci", "ME":"Mech"}}
+	  		};
+	
+	renderGrid({
+    	"id": "sort_align_demo",
+		"label": label,
+		"data": data,
+		"element_type": element_type,
+		"container": "table",
+		"sort": "true"
 	});
 
     function custom_save_function() {

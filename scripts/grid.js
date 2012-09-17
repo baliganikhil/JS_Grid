@@ -270,7 +270,7 @@ Other parameters (optional) are explained against them in the example call below
         }
 
             var empty_cell_for_header = actionButtonPosition == "line" ? "<th></th>" : "";
-            thead = '<thead><tr><th>' + selectAll + '</th><th>Sl.</th>' + thead + empty_cell_for_header;
+            thead = '<thead><tr><th>' + selectAll + '</th><th class="sl_no">Sl.</th>' + thead + empty_cell_for_header;
             thead += '</tr></thead>';
 
             /* == Body == */
