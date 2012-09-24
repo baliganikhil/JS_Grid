@@ -803,17 +803,33 @@ Other parameters (optional) are explained against them in the example call below
         });
 		
 		$(curTbl).find('tr.eachRow:visible').each(function(key, curRow) {
-			// if (key < 1) {
-			// 	return true;
-			// }
+            if (curQbe.indexOf('<') != -1 || curQbe.indexOf('>') != -1) {
+                var comp_sign = '';
+                comp_sign = curQbe.indexOf('<') != -1 ? '<' : '>';
+                comp_sign = curQbe.indexOf('<=') != -1 ? '<=' : comp_sign;
+                comp_sign = curQbe.indexOf('>=') != -1 ? '>=' : comp_sign;
 
-			if ($(this).find("." + qbe_id).text().toLowerCase().search(curQbe) == -1 && $(this).find("." + qbe_id).val().toLowerCase().search(curQbe) == -1) {
+                var comp_value = curQbe.replace(comp_sign, '');
+                comp_value = comp_value.trim();
+                if (nullOrEmpty(comp_value)) {
+                    return false;
+                }
+
+                if(!eval($(this).find("." + qbe_id).text() + comp_sign + comp_value)) {
+                    $(this).hide();
+                }
+
+            } else if ($(this).find("." + qbe_id).text().toLowerCase().search(curQbe) == -1 && $(this).find("." + qbe_id).val().toLowerCase().search(curQbe) == -1) {
 				$(this).hide();
 			} else {
                 if ((curQbeCount + 1) == total_qbe_length) {
                     $(all_cols_keys).each(function(key, v) {
                         if (all_cols[v]['summable']) {
-                            var cur_col_value = isNaN(parseFloat($(curRow).find('.' + v).text(), 10)) ? 0 : parseFloat($(curRow).find('.' + v).text(), 10);
+                            var cur_col_value = isNaN(parseFloat($(curRow).find('.' + v).text(), 10)) ? '' : parseFloat($(curRow).find('.' + v).text(), 10);
+                            if (nullOrEmpty(cur_col_value)) {
+                                cur_col_value = isNaN(parseFloat($(curRow).find('.' + v).val(), 10)) ? 0 : parseFloat($(curRow).find('.' + v).text(), 10);
+                            }
+
                             summable_col_sums[v] += cur_col_value;
                             $(curTbl).find('.' + v + '_sum_cell').html('<strong>' + summable_col_sums[v] + '</strong>');
                         }
