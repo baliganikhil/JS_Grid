@@ -813,7 +813,8 @@ Other parameters (optional) are explained against them in the example call below
                 if ((curQbeCount + 1) == total_qbe_length) {
                     $(all_cols_keys).each(function(key, v) {
                         if (all_cols[v]['summable']) {
-                            summable_col_sums[v] += parseFloat($(curRow).find('.' + v).text(), 10);
+                            var cur_col_value = isNaN(parseFloat($(curRow).find('.' + v).text(), 10)) ? 0 : parseFloat($(curRow).find('.' + v).text(), 10);
+                            summable_col_sums[v] += cur_col_value;
                             $(curTbl).find('.' + v + '_sum_cell').html('<strong>' + summable_col_sums[v] + '</strong>');
                         }
                     });
