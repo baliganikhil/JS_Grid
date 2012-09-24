@@ -1,0 +1,125 @@
+<html>
+<head>
+	<script type="text/javascript" src="scripts/jquery-1.7.2.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <script type="text/javascript" src="scripts/grid.js"></script>
+
+    <title>JS_Grid Generator: By Nikhil Baliga</title>
+
+    <style type="text/css">
+	    body {
+	        padding-top: 60px;
+	        padding-bottom: 40px;
+	      }
+
+	    #js_grid_gen_header, #js_grid_gen_detail {
+	    	height: 500px;
+	    }
+    </style>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="#">JS_Grid Generator</a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Tutorial</a></li>
+          <li class="divider-vertical"></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+	<div id='js_grid_gen_header'></div>
+	<div id='js_grid_gen_detail'></div>
+</div>
+
+<script type="text/javascript">
+// Some constants that can be used for both sections
+var source_true_false = {true: "True", false: "False"};
+
+// Elements for the header section
+var source_container = {table: "Table", form: "Form", chart: "Chart"};
+
+var label_header = {id: "Grid ID", 
+					container_type: "Container", 
+					addVisible: "Add Btn",
+					onAdd: "On Add",
+					deleteVisible: "Delete Btn",
+					onDelete: "On Delete",
+					saveVisible: "Save Btn",
+					onSave: "On Save",
+					searchVisible: "Search Btn",
+					onSearch: "On Search",
+					exportVisible: "Export Btn",
+					qbeEnabled: "QBE"
+				};
+
+var element_type_header = {id: {type: "text"}, 
+							container_type: {type: "select", source: source_container},
+							addVisible: {type: "select", source: source_true_false},
+							onAdd: {type: "text"},
+							deleteVisible: {type: "select", source: source_true_false},
+							onDelete: {type: "text"},
+							saveVisible: {type: "select", source: source_true_false},
+							onSave: {type: "text"},
+							searchVisible: {type: "select", source: source_true_false},
+							onSearch: {type: "text"},
+							exportVisible: {type: "select", source: source_true_false},
+							qbeEnabled: {type: "select", source: source_true_false},
+						};
+
+// Elements for the detail section
+var label_detail = {key_name: "Key", 
+					label_name: "Label", 
+					element_type: "Type",
+					source: "Source",
+					qbeEnabled: "QBE",
+					summable: "Summable"
+				};
+
+var element_type_detail = {key_name: {type: "text"}, 
+							label_name: {type: "text"}, 
+							element_type: {type: "select", source: source_true_false},
+							source: {type: "text"},
+							qbeEnabled: {type: "select", source: source_true_false},
+							summable: {type: "select", source: source_true_false}
+						};
+
+var data = null;
+
+// Render the header section
+renderGrid({
+		"id": "js_grid_gen_header",
+		"label": label_header,
+		"data": data,
+		"element_type": element_type_header,
+		"qbeEnabled": "false",
+		"container": "form"
+	});
+
+// Render the detail section
+renderGrid({
+		"id": "js_grid_gen_detail",
+		"label": label_detail,
+		"data": data,
+		"element_type": element_type_detail,
+		"qbeEnabled": "false",
+		"container": "table"
+	});
+
+</script>
+
+</body>
+</html>

@@ -776,26 +776,52 @@ Other parameters (optional) are explained against them in the example call below
 
 // QBE
 	$('.qbe').live('keyup', function() {
-		var curTbl = $('#' + $(this).closest('table').data('div_id') + '_grid_table');
+        var curDivId = $(this).closest('table').data('div_id');
+
+		var curTbl = $('#' + curDivId + '_grid_table');
 		$(curTbl).find('tr').show();
-		$('.qbe').each(function() {
-			evaluateQBEs($(this), curTbl);
+
+        total_qbe_length = $(curTbl).find('.qbe').length;
+		$(curTbl).find('.qbe').each(function(curQbeCount, curValue) {
+			evaluateQBEs($(this), curTbl, curDivId, total_qbe_length, curQbeCount);
 		});
 	});
 		
-	evaluateQBEs = function(qbeField, curTbl) {
+	evaluateQBEs = function(qbeField, curTbl, curDivId, total_qbe_length, curQbeCount) {
 		var curQbe = $(qbeField).val().toLowerCase();
 		var qbe_id = $(qbeField).attr("id");
+
+        var all_cols = blueprint_grid[curDivId]['element_type'];
+        var all_cols_keys = Object.keys(all_cols);
+
+        var summable_col_sums = {};
+        $(all_cols_keys).each(function(key, value) {
+            if (all_cols[value]['summable']) {
+                summable_col_sums[value] = 0;
+                $(curTbl).find('.' + value + '_sum_cell').html('<strong>0</strong>');
+            }
+        });
 		
-		$(curTbl).find('tr').each(function(key, value) {
-			if (key < 2) {
-				return true;
-			}
+		$(curTbl).find('tr.eachRow:visible').each(function(key, curRow) {
+			// if (key < 1) {
+			// 	return true;
+			// }
 
 			if ($(this).find("." + qbe_id).text().toLowerCase().search(curQbe) == -1 && $(this).find("." + qbe_id).val().toLowerCase().search(curQbe) == -1) {
 				$(this).hide();
-			}
+			} else {
+                if ((curQbeCount + 1) == total_qbe_length) {
+                    $(all_cols_keys).each(function(key, v) {
+                        if (all_cols[v]['summable']) {
+                            summable_col_sums[v] += parseFloat($(curRow).find('.' + v).text(), 10);
+                            $(curTbl).find('.' + v + '_sum_cell').html('<strong>' + summable_col_sums[v] + '</strong>');
+                        }
+                    });
+                }
+            }
 		});
+
+
 	};
 
 //********************************************************************************
