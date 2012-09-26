@@ -21,6 +21,10 @@
 
 <p>I have used Twitter bootstrap CSS along with this since JS_Grid goes very well with it. It is not mandatory and you can use your own CSS as well. If you like the project and would like to contribute, visit the <a href="https://github.com/baliganikhil/JS_Grid">Github page here</a>.</p>
 
+
+<div class="well"><ul id="toi"></ul></div>
+
+
 <!-- Begin basic table -->
 
 <br><h3>Basic table</h3>
@@ -144,6 +148,23 @@ Normally, we retrieve data from a database and present it to users. The user can
 
 </p>
 
+
+<p>
+<h3>Column Relations</h3>
+<p>
+Very often, we have relationships among columns. Like in MS Excel where you use Formulae to depict these relationships - For example, values of column C are equal to (B / A) where each cell of C equals corresponding values of B over A. This can be easily done using JS_Grid by using relations. Just pass the formula in the relations key under source. You can also indicate the number of places to round off.
+
+<p>Coming soon: Relations among summing as well
+
+<p>In the example below, you can see that data was provided for columns A and B, while C has been computed using formula (B / A) </p>
+
+<div class="mycode">
+<script src="https://gist.github.com/3787145.js?file=gistfile1.js"></script>
+</div>
+<div id="column_relation" style="height: 300px"></div>
+</p>
+
+
 <p>
 <h3>Say hello to Charts</h3>
 <p>Just like the same table could be rendered as a multi-data form, we can represent them as Charts as well. All you need to include is Raphael JS files along with it. We are now using the same example as before. The difference is that the container = chart, and chart_type = pie/bar</p>
@@ -199,6 +220,12 @@ $(document).ready(function() {
 		} else {
 			$(this).text('Show Code');
 		}
+	});
+
+	all_headings = $('h3');
+	$(all_headings).each(function(key, value) {
+		$('#toi').append('<li><a href="#bookmark' + key + '">' + $(this).text() + '</a></li>');
+		$(this).prepend("<a name='bookmark" + key + "'></a>")
 	});
 
 
@@ -400,6 +427,32 @@ $(document).ready(function() {
 		"container": "chart",
 		"chart_type": "line",
 		"chart_props": {"chart_size": [300, 220]}
+	});
+
+
+
+
+
+    // Column relations
+
+	label = {"A": "A", "B": "B", "C": "C"};
+
+	element_type = {
+		"A": {"type":"readonly"},
+		"B":  {"type":"readonly"},
+		"C": {"type":"readonly", "source": {"relation": "(B / A)", "round": "3"}}
+		};
+
+		data = [{"A": "10", "B": "24"}, 
+                {"A": "20", "B": "29"},
+                {"A": "30", "B": "32"}];
+
+    renderGrid({
+    	"id": "column_relation",
+		"label": label,
+		"data": data,
+		"element_type": element_type,
+		"container": "table"
 	});
 
 	

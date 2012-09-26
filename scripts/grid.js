@@ -309,7 +309,7 @@ Other parameters (optional) are explained against them in the example call below
                             if (qbeEnabled[j] === false || qbeEnabled[j] == "false") {
                                 readonly = ' readonly="readonly"';
                             }
-                            // Using td instead of th in order to 
+                            // Using td instead of th in order to
                             // prevent overlap with table sorter plugin
                             qbe += '<td><input type="text" class="qbe ' + colName[j] + '" id="' + colName[j] + '"' + readonly + '></td>';
                         } else {
@@ -322,17 +322,19 @@ Other parameters (optional) are explained against them in the example call below
                         classes_to_be_applied += 'summable';
                     }
 
-                    cellValue = render_control(current_type, colName[j], current_value, current_type.source, classes_to_be_applied);
-                    emptyCellValue = render_control(current_type, colName[j], "", current_type.source, classes_to_be_applied);
+                    var current_row_data = data[i];
+
+                    cellValue = render_control(current_type, colName[j], current_value, current_type.source, classes_to_be_applied, current_row_data);
+                    emptyCellValue = render_control(current_type, colName[j], "", current_type.source, classes_to_be_applied, current_row_data);
 
                     if (current_type.type == 'hidden') {
                         hidden_fields_in_this_row += cellValue;
                         hidden_fields_in_blank_row += emptyCellValue;
                     } else {
-                    	// Get alignment if any
-                    	var curAlign = current_type['align'];
-                    	curAlign = !nullOrEmpty(curAlign) ? ' align="' + curAlign + '"' : '';
-                    	
+                        // Get alignment if any
+                        var curAlign = current_type['align'];
+                        curAlign = !nullOrEmpty(curAlign) ? ' align="' + curAlign + '"' : '';
+
                         trow += '<td class="' + colName[j] + '_cell"' + curAlign + '>' + cellValue + '</td>';
                         empty_row += '<td class="' + colName[j] + '_cell" data-div_id = "' + div_id + '"' + curAlign + '>' + emptyCellValue + '</td>';
                     }
@@ -878,7 +880,7 @@ Other parameters (optional) are explained against them in the example call below
 			var classes_to_be_applied = '';
 
 			rendered_form += '<td>' + label[keys[i]] + ' ' + required_field + '</td>';
-			rendered_form += '<td>' + render_control(element_type[keys[i]], keys[i], data[keys[i]], element_type[keys[i]].source, classes_to_be_applied) + '</td>';
+			rendered_form += '<td>' + render_control(element_type[keys[i]], keys[i], data[keys[i]], element_type[keys[i]].source, classes_to_be_applied, data) + '</td>';
 
 			var j = i+1;
 			if(j == keys.length) {
@@ -894,7 +896,7 @@ Other parameters (optional) are explained against them in the example call below
 			}
 
 			rendered_form += '<td>' + label[keys[j]] + ' ' + required_field + '</td>';
-			rendered_form += '<td>' + render_control(element_type[keys[j]], keys[j], data[keys[j]], element_type[keys[j]].source, classes_to_be_applied) + '</td>';
+			rendered_form += '<td>' + render_control(element_type[keys[j]], keys[j], data[keys[j]], element_type[keys[j]].source, classes_to_be_applied, data) + '</td>';
 			rendered_form += '</tr>';
 		}
 		
@@ -1337,13 +1339,48 @@ function renderGrid(obj) {
 //********************************************************************************
 // Render control
 //********************************************************************************
-render_control = function(type, class_name, current_value, source_of_select, classes_to_be_applied) {
+render_control = function(type, class_name, current_value, source_of_select, classes_to_be_applied, current_row_data) {
 	var control;
 	// class_name = Default Class based on element type
 	// classes_to_be_applied = Additional classes
 	
 	if (nullOrEmpty(current_value)) {
-		current_value = '';
+        // If no value has been provided, we check to see if column relations are provided
+        // Column relations are to provided within source_of_select (source) as shown
+        /*
+            source_of_select : {
+                relation: "(key_1 / key_2) * 100",
+                round: "2",             // Default 2
+                sum_relation: "direct" // Other option: "relation"
+            }
+        */
+        // The relation key should have formula for evaluation. This will be directly 'eval-ed'
+        //
+        // sum_relation is relevant in case of computing sum - (direct) If the sum should be the sum of
+        // derived values, or (relation) if the sum is derived from sum of related columns
+        // [e.g. for 'direct summing' = Sum of the derived column]
+        // [e.g. for 'relation summing' = Sum of key_1 / sum of key_2]
+
+        // However if we don't have the relation field, we use empty string for data
+        if (nullOrEmpty(source_of_select)) {
+            current_value = '';
+        } else if (nullOrEmpty(source_of_select['relation'])) {
+            current_value = '';
+        } else {
+            // Identify keys, convert them to form suitable for data recovery
+            var keys_from_actual_data = Object.keys(current_row_data);
+            var formula = source_of_select['relation'];
+            var round_off = nullOrEmpty(source_of_select['round']) ? 2 : parseInt(source_of_select['round'], 10);
+
+            $(keys_from_actual_data).each(function(key, value) {
+                var re = new RegExp("\\b" + value + "\\b", "g");
+
+                formula = formula.replace(re, 'current_row_data["' + value + '"]');
+            });
+
+            current_value = Math.round(Math.pow(10, round_off) * eval(formula)) / Math.pow(10, round_off);
+        }
+
 	}
 	
 	var ro = '';
