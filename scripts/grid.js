@@ -1181,6 +1181,9 @@ init_grid_chart = function(obj) {
 
         // When one of the coloured graph buttons is clicked
         $('#' + target + "_graph_btns").find('.coloured_button').live('click', function() {
+            // Remove border around Show All button
+            $('#' + target + "_graph_btns").find('.show_all_button').css('border', 'none');
+            
             // Toggle active colour button class
             if ($(this).hasClass('active_colour_button')) {
                 $(this).removeClass('active_colour_button');
