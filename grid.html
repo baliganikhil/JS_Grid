@@ -7,6 +7,10 @@
 	.mycode {
 		font-size: 11px;
 	}
+
+	.make_bold {
+		font-weight: bold;
+	}
 	</style>
 	
 	<script src="./scripts/jquery-1.7.2.min.js"></script>
@@ -146,6 +150,18 @@ Normally, we retrieve data from a database and present it to users. The user can
 </div>
 <div id="sort_align_demo" style="height: 300px"></div>
 
+</p>
+
+<p>
+<h3>Add custom classes</h3>
+<p>
+You might want to add some classes to certain columns, for example, make the text bold, or change the colours. This is supported in JS_Grid. To do that, just pass an array of classes to the function as shown in the code.
+</p>
+
+<div class="mycode">
+<script src="https://gist.github.com/3792491.js?file=gistfile1.html"></script>
+</div>
+<div id='custom_classes_demo'></div>
 </p>
 
 
@@ -454,6 +470,33 @@ $(document).ready(function() {
 		"element_type": element_type,
 		"container": "table"
 	});
+
+
+
+	// Custom classes demo
+	label = {"name": "Name", "age": "Age", "dept": "Department"};
+
+	data = [{"name": "Nikhil", "age": "24", "dept": "EC", "lastname": "Baliga"}, 
+                {"name": "Amod", "age": "29", "dept": "EC", "lastname": "Pandey"}, 
+                {"name": "Balu", "age": "32", "dept": "ME", "lastname": "S"}];
+
+	element_type = {
+	  		"name": {"type":"readonly"},
+	  		"age":  {"type":"readonly", "classes": ["make_bold"] },
+	  		"dept": {"type":"select", "source":{"EC":"Electronics", "CS":"Comp Sci", "ME":"Mech"}}
+	  		};
+	
+	renderGrid({
+    	"id": "custom_classes_demo",
+		"label": label,
+		"data": data,
+		"qbeEnabled": [true, true, true],
+		"element_type": element_type,
+		"container": "table",
+		"sort": "true"
+	});
+
+	// End Custom classes demo
 
 	
 

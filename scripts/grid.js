@@ -322,6 +322,12 @@ Other parameters (optional) are explained against them in the example call below
                         classes_to_be_applied += 'summable';
                     }
 
+                    // Retrieve Custom classes if any
+                    var custom_classes = current_type['classes'];
+                    if (!nullOrEmpty(custom_classes)) {
+                        classes_to_be_applied += ' ' + custom_classes.join(' ');
+                    }
+
                     var current_row_data = data[i];
 
                     cellValue = render_control(current_type, colName[j], current_value, current_type.source, classes_to_be_applied, current_row_data);
