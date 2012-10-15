@@ -575,6 +575,8 @@ Other parameters (optional) are explained against them in the example call below
 				$(this).find('.asterisk').val('ID');
 			} else if ($(this).find('.asterisk').val() == 'B') {
 				$(this).find('.asterisk').val('BD');
+            } else if ($(this).find('.asterisk').val() == 'U') {
+                $(this).find('.asterisk').val('UD');
 			} else {
 				$(this).find('.asterisk').val('D');
 			}
@@ -1616,7 +1618,7 @@ function tableToJson(table,complete_row){
    table = '#'+table+'_grid_table';
    $.each($(table).find('tr.eachRow'),function(index1,htmlContent){
    
-      if ( (!nullOrEmpty($(this).find('td:first').find('.asterisk').attr('value')) || complete_row ) && ( $(this).find('td:first').find('.asterisk').attr('value') != 'ID' && $(this).find('td:first').find('.asterisk').attr('value') != 'BD' && $(this).find('td:first').find('.asterisk').attr('value') != 'B') ){
+      if ( (!nullOrEmpty($(this).find('td:first').find('.asterisk').attr('value')) || complete_row ) && ( $(this).find('td:first').find('.asterisk').attr('value') != 'UD' && $(this).find('td:first').find('.asterisk').attr('value') != 'ID' && $(this).find('td:first').find('.asterisk').attr('value') != 'BD' && $(this).find('td:first').find('.asterisk').attr('value') != 'B') ){
          //alert ($(this).find('td:first').find('.asterisk').attr('value'));
          var row = $(this);
          $.each(metaData,function(index,value){
